@@ -1,0 +1,7 @@
+C:\Users\Dmitry\source\repos\DungeonSlayer\bin\Debug\DungeonSlayer.exe.config
+C:\Users\Dmitry\source\repos\DungeonSlayer\bin\Debug\DungeonSlayer.exe
+C:\Users\Dmitry\source\repos\DungeonSlayer\bin\Debug\DungeonSlayer.pdb
+C:\Users\Dmitry\source\repos\DungeonSlayer\obj\Debug\DungeonSlayer.csprojAssemblyReference.cache
+C:\Users\Dmitry\source\repos\DungeonSlayer\obj\Debug\DungeonSlayer.csproj.CoreCompileInputs.cache
+C:\Users\Dmitry\source\repos\DungeonSlayer\obj\Debug\DungeonSlayer.exe
+C:\Users\Dmitry\source\repos\DungeonSlayer\obj\Debug\DungeonSlayer.pdb
