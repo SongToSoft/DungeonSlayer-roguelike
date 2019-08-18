@@ -49,7 +49,12 @@
     <Compile Include="Architecture\Pillar .cs" />
     <Compile Include="DungeonGenerator.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Architecture\World.cs" />
+    <Compile Include="Location\Dungeon.cs" />
+    <Compile Include="Location\World.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="Units\NPC\Guardian.cs" />
+    <Compile Include="Units\NPC\Human.cs" />
+    <Compile Include="Units\NPC\Informant.cs" />
     <Compile Include="Units\Player\Inventory\Armores\Armor.cs" />
     <Compile Include="Units\Player\Inventory\Armores\ArmorList.cs" />
     <Compile Include="Units\Player\Inventory\Helmets\Helmet.cs" />

@@ -15,7 +15,10 @@ namespace DungeonSlayer.Units.Enemy
             form = 's';
             helth = 15;
             attack = 6;
-            expectedExp = 5;
+            expectedExp = DungeonGenerator.random.Next(3, 5);
+            expectedGold = DungeonGenerator.random.Next(1, 5);
+            accuracy = 90;
+            criticalChance = 5;
         }
     }
 }

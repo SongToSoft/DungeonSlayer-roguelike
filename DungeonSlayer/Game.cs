@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Threading;
 
 namespace DungeonSlayer
 {
     static class Game
     {
-        static public int dungeonLevel = 0;
+        static public int currentLevel = 0, maxLevel = 0;
         static public int consoleHeight = 35, consoleWidth = 110;
         static public Player player;
         static public World world;
@@ -17,9 +16,8 @@ namespace DungeonSlayer
             world = new World(consoleHeight, consoleWidth);
             consoleBuffer = new char[consoleHeight, consoleWidth];
             player = new Player();
-            world.GenerateMap();
-            player.SetInRoom(0);
-            PlayerGenerator.SetupSpecifications(ref player);
+            world.GoToHub();
+            //Menu.StartScreen();
             Update();
         }
 
@@ -28,7 +26,10 @@ namespace DungeonSlayer
             Draw();
             player.Update();
             player.Draw();
-            world.Update();
+            if (player.isMove)
+            {
+                world.Update();
+            }
             Update();
         }
 
@@ -37,47 +38,39 @@ namespace DungeonSlayer
             if (player.isDead)
             {
                 //TODO: Del player save
-                StatusLine.AddLine("!!!!!!!!!!!!!");
+                StatusLine.AddLine("Player is dead");
+                Console.ReadKey();
             }
-            else
-            {
-                //TODO: Save character
-            }
+            //else
+            //{
+            //    //TODO: Save character
+            //}
+            Environment.Exit(0);
         }
 
         static public void Draw()
         {
-            //Console.Clear();
             world.Draw();
             player.Draw();
-            //for (int i = 0; i < map.height; ++i)
-            //{
-            //    Console.Write("  ");
-            //    for (int j = 0; j < map.width; ++j)
-            //    {
-            //        Console.ForegroundColor = map.colors[i, j];
-            //        Console.Write(map.places[i, j]);
-            //    }
-            //    Console.WriteLine();
-            //}
-
             Console.SetCursorPosition(0, 0);
             for (int i = 0; i < world.height; ++i)
             {
                 for (int j = 0; j < world.width; ++j)
                 {
-                    if (consoleBuffer[i, j] != world.map[i, j])
+                    if (consoleBuffer[i, j] != Game.world.map[i, j])
                     {
                         Console.SetCursorPosition(j, i);
-                        Console.ForegroundColor = world.colors[i, j];
-                        consoleBuffer[i, j] = world.map[i, j];
-                        Console.Write(world.map[i, j]);
+                        Console.ForegroundColor = Game.world.colors[i, j];
+                        consoleBuffer[i, j] = Game.world.map[i, j];
+                        Console.Write(Game.world.map[i, j]);
                     }
                 }
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.SetCursorPosition(world.width, i);
                 if (i == 1)
                 {
-                    Console.Write(" Текущий уровень подземелья: " + dungeonLevel);
+                    Console.Write((currentLevel != 0) ? (" Уровень подземелья: " + currentLevel) :
+                                  (" Вы в безопасном месте  "));
                 }
                 else
                 {
@@ -86,21 +79,8 @@ namespace DungeonSlayer
             }
             Console.SetCursorPosition(0, world.height);
             Console.WriteLine(" [W] - Up [D] - Right [S] - Down [A] - Left [I] - Inventory" +
-                             ((player.specification.currentExp == player.specification.maxExp) ? "[U] - Level Up" : ""));
+                             ((player.specification.levelPoint != 0) ? " [U] - Level Up" : "              "));
 
-            //for (int i = (int)(player.GetPosition().X - player.vision.X); i < (player.GetPosition().X + player.vision.X / 2); ++i)
-            //{
-            //    for (int j = (int)(player.GetPosition().Y - player.vision.Y); j < (player.GetPosition().Y + player.vision.Y); ++j)
-            //    {
-            //        if ((i < map.height) && (j < map.width) && (i >= 0) && (j >= 0))
-            //        {
-            //            Console.ForegroundColor = map.colors[i, j];
-            //            Console.Write(map.places[i, j]);
-            //        }
-            //    }
-            //    Console.WriteLine();
-            //}
-            //StatusLine.status += " Команда игрока: ";
             if (StatusLine.status != "")
             {
                 StatusLine.Draw();
@@ -109,7 +89,6 @@ namespace DungeonSlayer
             {
                 StatusLine.DrawBuffer();
             }
-            //player.DrawInfo();
         }
     }
 }

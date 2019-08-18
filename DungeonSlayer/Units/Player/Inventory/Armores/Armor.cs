@@ -14,12 +14,18 @@ namespace DungeonSlayer.Units.Player.Inventory
         {
         }
 
-        public new string GetInfo()
+        public override void Use()
+        {
+            Game.player.inventory.AddItem(Game.player.inventory.activeArmor);
+            Game.player.inventory.SetActiveArmor(this);
+        }
+
+        public override string GetInfo()
         {
             return " Защита: " + blockingValue +
                    ", Увеличение характеристик: S - " + increasingStats.X +
                    ", A - " + increasingStats.Y +
-                   ", I - " + increasingStats.Z + '\n';
+                   ", I - " + increasingStats.Z;
         }
     }
 }

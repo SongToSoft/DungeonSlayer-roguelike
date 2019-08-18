@@ -14,7 +14,7 @@ namespace DungeonSlayer
         public int height;
         public char[,] places;
 
-        public Bridge(Room roomFirst, Room roomSecond)
+        public Bridge(Room roomFirst, Room roomSecond, ref char[,] map)
         {
             position.X = roomFirst.position.X + roomFirst.height / 2;
             position.Y = roomFirst.position.Y + roomFirst.width - 1;
@@ -25,7 +25,7 @@ namespace DungeonSlayer
             {
                 for (int j = 0; j < width; ++j)
                 {
-                    places[i, j] = Game.world.map[(int)(position.X + i), (int)(position.Y + j)];
+                    places[i, j] = map[(int)(position.X + i), (int)(position.Y + j)];
                 }
             }
             for (int i = 0; i < width; ++i)

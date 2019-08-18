@@ -9,6 +9,7 @@ namespace DungeonSlayer.Units.Enemy
     class Enemy : Persona
     {
         public int expectedExp = 0;
+        public int expectedGold = 0;
 
         public bool CheckPlayer()
         {

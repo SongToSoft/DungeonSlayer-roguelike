@@ -15,7 +15,7 @@ namespace DungeonSlayer
         public PlayerInventory inventory;
         //public Vector2 vision = new Vector2(20, 70);
         public int currentGold = 100;
-        public bool isDead = false;
+        public bool isDead = false, isMove = false;
 
         public Player()
         {
@@ -28,7 +28,6 @@ namespace DungeonSlayer
 
         public void DrawInfo(int value)
         {
-            Console.ForegroundColor = ConsoleColor.Magenta;
             const int startValue = 3;
             switch (value)
             {
@@ -75,15 +74,21 @@ namespace DungeonSlayer
                     Console.WriteLine(" Шанс уклониться: " + evasion);
                     break;
                 case startValue + 14:
-                    Console.WriteLine(" Шлем: " + inventory.activeHelmet.name);
+                    Console.WriteLine(" Точность удара: " + accuracy);
                     break;
                 case startValue + 15:
-                    Console.WriteLine(" Доспех: " + inventory.activeArmor.name);
+                    Console.WriteLine(" Шанс критического удара: " + criticalChance);
                     break;
                 case startValue + 16:
-                    Console.WriteLine(" Оружие: " + inventory.activeWeapon.name);
+                    Console.WriteLine(" Шлем: " + inventory.activeHelmet.name);
                     break;
                 case startValue + 17:
+                    Console.WriteLine(" Доспех: " + inventory.activeArmor.name);
+                    break;
+                case startValue + 18:
+                    Console.WriteLine(" Оружие: " + inventory.activeWeapon.name);
+                    break;
+                case startValue + 19:
                     Console.WriteLine(" Текущее количество золота: " + currentGold);
                     break;
             }
@@ -91,31 +96,31 @@ namespace DungeonSlayer
 
         public new void SetInRoom(int roomId)
         {
-            for (int i = 0; i < Game.world.units.Count; ++i)
+            for (int i = 0; i < Game.world.dungeon.units.Count; ++i)
             {
-                if (Game.world.units[i] is Portal)
+                if (Game.world.dungeon.units[i] is Portal)
                 {
-                    if (Game.world.map[(int)Game.world.units[i].GetPosition().X, (int)Game.world.units[i].GetPosition().Y + 1] == '.')
+                    if (Game.world.map[(int)Game.world.dungeon.units[i].GetPosition().X, (int)Game.world.dungeon.units[i].GetPosition().Y + 1] == '.')
                     {
-                        position = new Vector2(Game.world.units[i].GetPosition().X, Game.world.units[i].GetPosition().Y + 1);
+                        position = new Vector2(Game.world.dungeon.units[i].GetPosition().X, Game.world.dungeon.units[i].GetPosition().Y + 1);
                     }
                     else
                     {
-                        if (Game.world.map[(int)Game.world.units[i].GetPosition().X + 1, (int)Game.world.units[i].GetPosition().Y] == '.')
+                        if (Game.world.map[(int)Game.world.dungeon.units[i].GetPosition().X + 1, (int)Game.world.dungeon.units[i].GetPosition().Y] == '.')
                         {
-                            position = new Vector2(Game.world.units[i].GetPosition().X + 1, Game.world.units[i].GetPosition().Y);
+                            position = new Vector2(Game.world.dungeon.units[i].GetPosition().X + 1, Game.world.dungeon.units[i].GetPosition().Y);
                         }
                         else
                         {
-                            if (Game.world.map[(int)Game.world.units[i].GetPosition().X, (int)Game.world.units[i].GetPosition().Y - 1] == '.')
+                            if (Game.world.map[(int)Game.world.dungeon.units[i].GetPosition().X, (int)Game.world.dungeon.units[i].GetPosition().Y - 1] == '.')
                             {
-                                position = new Vector2(Game.world.units[i].GetPosition().X, Game.world.units[i].GetPosition().Y - 1);
+                                position = new Vector2(Game.world.dungeon.units[i].GetPosition().X, Game.world.dungeon.units[i].GetPosition().Y - 1);
                             }
                             else
                             {
-                                if (Game.world.map[(int)Game.world.units[i].GetPosition().X - 1, (int)Game.world.units[i].GetPosition().Y] == '.')
+                                if (Game.world.map[(int)Game.world.dungeon.units[i].GetPosition().X - 1, (int)Game.world.dungeon.units[i].GetPosition().Y] == '.')
                                 {
-                                    position = new Vector2(Game.world.units[i].GetPosition().X - 1, Game.world.units[i].GetPosition().Y);
+                                    position = new Vector2(Game.world.dungeon.units[i].GetPosition().X - 1, Game.world.dungeon.units[i].GetPosition().Y);
                                 }
                             }
                         }
@@ -127,6 +132,7 @@ namespace DungeonSlayer
 
         public void Update()
         {
+            isMove = false;
             Console.SetCursorPosition(1, 1);
             StatusLine.status = "";
             char command = Console.ReadKey().KeyChar;
@@ -134,31 +140,43 @@ namespace DungeonSlayer
             {
                 case 'w':
                 case 'W':
+                    isMove = true;
+                    CheckInformant((int)position.X - 1, (int)position.Y);
                     CheckPortal((int)position.X - 1, (int)position.Y);
                     CheckAtack((int)position.X - 1, (int)position.Y);
                     MoveUp();
                     break;
                 case 'd':
                 case 'D':
+                    isMove = true;
+                    CheckInformant((int)position.X, (int)position.Y + 1);
                     CheckPortal((int)position.X, (int)position.Y + 1);
                     CheckAtack((int)position.X, (int)position.Y + 1);
                     MoveRight();
                     break;
                 case 's':
                 case 'S':
+                    isMove = true;
+                    CheckInformant((int)position.X + 1, (int)position.Y);
                     CheckPortal((int)position.X + 1, (int)position.Y);
                     CheckAtack((int)position.X + 1, (int)position.Y);
                     MoveDown();
                     break;
                 case 'a':
                 case 'A':
+                    isMove = true;
+                    CheckInformant((int)position.X, (int)position.Y - 1);
                     CheckPortal((int)position.X, (int)position.Y - 1);
                     CheckAtack((int)position.X, (int)position.Y - 1);
                     MoveLeft();
                     break;
                 case 'i':
                 case 'I':
-                    Game.player.inventory.OpenInventory();
+                    inventory.OpenInventory();
+                    break;
+                case 'u':
+                case 'U':
+                    specification.LevelUp();
                     break;
             }
             Console.SetCursorPosition(1, 1);
@@ -170,8 +188,8 @@ namespace DungeonSlayer
         {
             if ((i < Game.world.height) && (j < Game.world.width))
             {
-                Enemy enemy = Game.world.GetEnemyOverPosition(i, j);
-                if (Game.world.GetEnemyOverPosition(i, j) != null)
+                Enemy enemy = Game.world.dungeon.GetEnemyOverPosition(i, j);
+                if (Game.world.dungeon.GetEnemyOverPosition(i, j) != null)
                 {
                     Attack(enemy);
                 }
@@ -184,14 +202,33 @@ namespace DungeonSlayer
             {
                 if (Game.world.map[i, j] == 'P')
                 {
-                    Portal portal = Game.world.GetPortalOverPosition(i, j);
+                    Portal portal = Game.world.dungeon.GetPortalOverPosition(i, j);
                     if (portal != null)
                     {
                         if (portal.status == EPortalStatus.NEXT_DUNGEON)
                         {
-                            Game.world.LoadNewDungeon();
+                            Game.world.GoToNewDungeon();
+                        }
+                        if (portal.status == EPortalStatus.HUB)
+                        {
+                            Game.world.GoToHub();
+                        }
+                        if (portal.status == EPortalStatus.CURRENT_DUNGEON)
+                        {
+                            Game.world.GoToCurrentDungeon();
                         }
                     }
+                }
+            }
+        }
+
+        public void CheckInformant(int i, int j)
+        {
+            if ((i < Game.world.height) && (j < Game.world.width))
+            {
+                if (Game.world.map[i, j] == 'i')
+                {
+                    StatusLine.ShowInfo();
                 }
             }
         }

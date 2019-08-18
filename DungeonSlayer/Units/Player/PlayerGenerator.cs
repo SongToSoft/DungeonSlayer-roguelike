@@ -17,6 +17,8 @@ namespace DungeonSlayer
             Console.WriteLine("Для продолжения нажмите любую клавишу");
             char command = Console.ReadKey().KeyChar;
             Console.Clear();
+            Game.player.helth = Game.player.maxHelth;
+            Game.player.mana = Game.player.maxMana;
         }
         
         static public void SetName(ref Player player)

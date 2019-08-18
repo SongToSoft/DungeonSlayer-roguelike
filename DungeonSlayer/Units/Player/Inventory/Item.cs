@@ -9,5 +9,14 @@ namespace DungeonSlayer.Units.Player.Inventory
     class Item
     {
         public string name;
+
+        public virtual void Use()
+        {
+        }
+
+        public virtual string GetInfo()
+        {
+            return "Предмет";
+        }
     }
 }

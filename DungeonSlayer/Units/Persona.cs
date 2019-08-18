@@ -16,46 +16,69 @@ namespace DungeonSlayer
         public int attack = 1;
         public int evasion = 1;
         public int blocking = 0;
+        public int accuracy = 95;
+        public int criticalChance = 0;
 
         public void Attack(Persona persona)
         {
             StatusLine.AddLine(" " + name + " атакует " + persona.name + '\n');
-            persona.ReceiveAttack(attack);
+            persona.ReceiveAttack(attack, this);
         }
 
-        public void ReceiveAttack(int attack)
+        public void ReceiveAttack(int attack, Persona whoMadeAttack)
         {
-            int damage = attack - blocking;
-            if (DungeonGenerator.random.Next(0, 100) < evasion)
+            if (DungeonGenerator.random.Next(0, 100) > whoMadeAttack.accuracy)
             {
-                StatusLine.AddLine(" " + name + " уклонился от удара\n ");
+                StatusLine.AddLine(" " + whoMadeAttack.name + " промахнулся по " + name + "\n");
             }
             else
             {
-                StatusLine.AddLine(" " + name + " получил урон " + damage + "\n");
-                if (damage > 0)
+                if (DungeonGenerator.random.Next(0, 100) < evasion)
                 {
-                    helth -= damage;
+                    StatusLine.AddLine(" " + name + " уклонился от удара\n");
                 }
-                StatusLine.AddLine(" У " + name + " осталось жизней " + ((helth >= 0) ? Convert.ToString(helth) : " 0") + "\n");
-                if (helth <= 0)
+                else
                 {
-                    StatusLine.AddLine(" " + name + " убит\n");
-                    if (!(this is Player))
+                    int damage = attack - blocking;
+                    StatusLine.AddLine(" " + whoMadeAttack.name + " попал по " + name + "\n");
+                    if (DungeonGenerator.random.Next(0, 100) < whoMadeAttack.criticalChance)
                     {
-                        Game.player.specification.currentExp += (this as Enemy).expectedExp;
-                        StatusLine.AddLine(" " + Game.player.name + " получил" +
-                                          ((Game.player.specification.gender == EGender.FEMALE) ? "а " : " ") + "опыт: " +
-                                          (this as Enemy).expectedExp + "\n");
+                        StatusLine.AddLine(" " + whoMadeAttack.name + " нанёс критический удар по " + name + "\n");
+                        damage *= 2;
                     }
-                    else
+                    StatusLine.AddLine(" " + name + " получил урон " + damage + "\n");
+                    if (damage > 0)
                     {
-                        (this as Player).isDead = true;
-                        Game.EndGame();
+                        helth -= damage;
                     }
-                    if (this is Enemy)
+                    StatusLine.AddLine(" У " + name + " осталось жизней " + ((helth >= 0) ? Convert.ToString(helth) : " 0") + "\n");
+                    if (helth <= 0)
                     {
-                        Game.world.enemyes.Remove(this as Enemy);
+                        StatusLine.AddLine(" " + name + " убит\n");
+                        if (!(this is Player))
+                        {
+                            Game.player.specification.currentExp += (this as Enemy).expectedExp;
+                            if (Game.player.specification.currentExp >= Game.player.specification.maxExp)
+                            {
+                                ++Game.player.specification.level;
+                                ++Game.player.specification.levelPoint;
+                                int remainder = Game.player.specification.currentExp - Game.player.specification.maxExp;
+                                Game.player.specification.currentExp = remainder;
+                            }
+                            Game.player.currentGold += (this as Enemy).expectedGold;
+                            StatusLine.AddLine(" " + Game.player.name + " получил" +
+                                              ((Game.player.specification.gender == EGender.FEMALE) ? "а " : " ") + "опыт: " +
+                                              (this as Enemy).expectedExp + ", деньги: " + (this as Enemy).expectedGold + "\n");
+                        }
+                        else
+                        {
+                            (this as Player).isDead = true;
+                            Game.EndGame();
+                        }
+                        if (this is Enemy)
+                        {
+                            Game.world.dungeon.enemyes.Remove(this as Enemy);
+                        }
                     }
                 }
             }
@@ -92,6 +115,5 @@ namespace DungeonSlayer
                 ++position.X;
             }
         }
-      
     }
 }

@@ -19,12 +19,18 @@ namespace DungeonSlayer.Units.Player.Inventory
             increasingStats = _increasingStats;
         }
 
-        public string GetInfo()
+        public override void Use()
+        {
+            Game.player.inventory.AddItem(Game.player.inventory.activeHelmet);
+            Game.player.inventory.SetActiveHelmet(this);
+        }
+
+        public override string GetInfo()
         {
             return " Защита: " + blockingValue +
                    ", Увеличение характеристик: S - " + increasingStats.X +
                    ", A - " + increasingStats.Y +
-                   ", I - " + increasingStats.Z + '\n';
+                   ", I - " + increasingStats.Z;
         }
     }
 }

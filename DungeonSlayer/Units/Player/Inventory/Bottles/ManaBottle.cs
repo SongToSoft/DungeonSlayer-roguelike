@@ -13,13 +13,18 @@ namespace DungeonSlayer.Units.Player.Inventory
             name = "Склянка с маной";
         }
 
-        public void Use()
+        public override void Use()
         {
             Game.player.mana += 20;
             if (Game.player.mana > Game.player.maxMana)
             {
                 Game.player.mana = Game.player.maxMana;
             }
+        }
+
+        public override string GetInfo()
+        {
+            return "Восстанавливает 20 маны";
         }
     }
 }

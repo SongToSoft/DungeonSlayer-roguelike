@@ -1,4 +1,6 @@
 ﻿using DungeonSlayer.Architecture;
+using DungeonSlayer.Location;
+using DungeonSlayer.Units;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +44,7 @@ namespace DungeonSlayer
                 {
                     if (rooms[i].position.Y < rooms[j].position.Y)
                     {
-                        Bridge bridge = new Bridge(rooms[i], rooms[j]);
+                        Bridge bridge = new Bridge(rooms[i], rooms[j], ref Game.world.map);
                         bridges.Add(bridge);
                         break;
                     }
@@ -57,8 +59,6 @@ namespace DungeonSlayer
             {
                 Pillar pillar = new Pillar(random.Next((int)roomPosition.X + 3, (int)roomPosition.X + roomHeight - 5),
                                            random.Next((int)roomPosition.Y + 2, (int)roomPosition.Y + roomWidth - 5));
-                //Pillar pillar = new Pillar((int)Game.world.rooms[index].position.X,
-                //                           (int)Game.world.rooms[index].position.Y);
                 pillars.Add(pillar);
             }
         }
@@ -74,5 +74,18 @@ namespace DungeonSlayer
             }
             return false;
         }
+
+        static public void MakeHub(ref List<Room> rooms)
+        {
+            int roomHeight = 25;
+            int roomWidth = 30;
+            for (int i = 0; i < 3; ++i)
+            {
+                Room room = new Room(new Vector2(4, 2 + (i * roomWidth + 5)), roomHeight, roomWidth, i);
+                room.pillars = new List<Pillar>();
+                rooms.Add(room);
+            }
+        }
     }
 }
+ 

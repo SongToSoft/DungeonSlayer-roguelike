@@ -9,7 +9,8 @@ namespace DungeonSlayer.MapObjects
     enum EPortalStatus
     {
         NEXT_DUNGEON,
-        HUB
+        HUB,
+        CURRENT_DUNGEON
     }
     class Portal : Unit
     {

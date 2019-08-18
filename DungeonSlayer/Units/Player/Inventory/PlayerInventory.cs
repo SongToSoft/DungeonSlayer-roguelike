@@ -25,8 +25,6 @@ namespace DungeonSlayer
             items.Add(ItemsList.healtBottle);
             items.Add(ItemsList.healtBottle);
             items.Add(ItemsList.manaBottle);
-            items.Add(ItemsList.manaBottle);
-            items.Add(ArmorList.elvenArmor);
         }
 
         public void AddItem(Item item)
@@ -50,6 +48,8 @@ namespace DungeonSlayer
 
         public void SetActiveWeapon(Weapon weapon)
         {
+            Game.player.accuracy = weapon.accuracy;
+            Game.player.criticalChance = weapon.criticalChance;
             if ((Game.player.specification.race == ERaсe.ELF) && (activeWeapon.type == EWeaponType.DAGGER))
             {
                 --Game.player.attack;
@@ -81,30 +81,13 @@ namespace DungeonSlayer
             Console.WriteLine(" Активный Шлем: " + activeHelmet.name + " " + activeHelmet.GetInfo());
             Console.WriteLine(" Активный Доспех: " + activeArmor.name + " " + activeArmor.GetInfo());
             Console.WriteLine(" Активное Оружие: " + activeWeapon.name + " " + activeWeapon.GetInfo());
-            string info = "";
+            Console.WriteLine();
             for (int i = 0; i < items.Count; ++i)
             {
-                if ((items[i] is Armor))
-                {
-                    info = (items[i] as Armor).GetInfo();
-                }
-                else
-                {
-                    if (items[i] is Helmet)
-                    {
-                        info = (items[i] as Helmet).GetInfo();
-                    }
-                    else
-                    {
-                        if (items[i] is Weapon)
-                        {
-                            info = (items[i] as Weapon).GetInfo();
-                        }
-                    }
-                }
-                Console.WriteLine(" [" + (i + 1) + "]" + " " + items[i].name + 
-                                 ((info == "") ? "" : " " + info));
+                Console.WriteLine(" [" + (i + 1) + "]" + " " + items[i].name + " " + items[i].GetInfo());
             }
+            Console.WriteLine();
+            Console.WriteLine(" Введите номер предмета, который хотите использовать");
             Console.WriteLine(" [C] - Закрыть инвентарь");
             char command = Console.ReadKey().KeyChar;
             if ((command == 'c') || (command == 'C'))
@@ -113,7 +96,12 @@ namespace DungeonSlayer
             }
             else
             {
-                //TODO: End of chose item
+                int itemIndex = command - '0';
+                if ((itemIndex <= items.Count) && (itemIndex > 0))
+                {
+                    items[itemIndex - 1].Use();
+                    items.RemoveAt(itemIndex - 1);
+                }
                 OpenInventory();
             }
         }

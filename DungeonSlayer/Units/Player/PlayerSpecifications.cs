@@ -2,10 +2,6 @@
 using DungeonSlayer.Units.Player.Inventory.Helmets;
 using DungeonSlayer.Units.Player.Inventory.Weapons;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DungeonSlayer
 {
@@ -34,14 +30,15 @@ namespace DungeonSlayer
     {
         public int level = 1;
         public int currentExp = 0;
-        public int maxExp = 100;
+        public int maxExp = 10;
         public EGender gender = EGender.MALE;
         public EClass specialization = EClass.KNIGHT;
         public ERaсe race = ERaсe.HUMAN;
         public int strength = 1, agility = 1, intelligence = 1;
         public int spellPower = 1;
-
+        public int levelPoint = 0;
         public int strengthMultiply = 0, agilityMultiply = 0, intelligenceMultiply = 0;
+
         public void SetGender(EGender _gender)
         {
             gender = _gender;
@@ -108,7 +105,7 @@ namespace DungeonSlayer
         public void IncreaseStrength(int value)
         {
             strength += value;
-            Game.player.helth += (value * 3);
+            Game.player.maxHelth += (value * 3);
             ++strengthMultiply;
             if (strengthMultiply == 4)
             {
@@ -119,6 +116,7 @@ namespace DungeonSlayer
 
         public void IncreaseAgility(int value)
         {
+            //TODO: Add increaes critical chance with increase agility
             agility += value;
             ++agilityMultiply;
             if (agilityMultiply == 2)
@@ -139,12 +137,51 @@ namespace DungeonSlayer
         public void IncreaseIntelegence(int value)
         {
             intelligence += value;
-            Game.player.mana += (value * 4);
+            Game.player.maxMana += (value * 4);
             ++intelligenceMultiply;
             if (intelligenceMultiply == 3)
             {
                 ++spellPower;
                 intelligenceMultiply = 0;
+            }
+        }
+
+        public void LevelUp()
+        {
+            if (levelPoint > 0)
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Game.consoleBuffer = new char[Game.consoleHeight, Game.consoleWidth];
+                Console.WriteLine(" Доступных очков прокачки: " + levelPoint);
+                Console.WriteLine(" Выберите характеристику для прокачки:");
+                Console.WriteLine(" [1] - Сила");
+                Console.WriteLine(" [2] - Ловкость");
+                Console.WriteLine(" [3] - Интелект");
+                char command = Console.ReadKey().KeyChar;
+                int attributeIndex = command - '0';
+                if ((attributeIndex > 0) && (attributeIndex <4))
+                {
+                    switch(attributeIndex)
+                    {
+                        case 1:
+                            IncreaseStrength(1);
+                            break;
+                        case 2:
+                            IncreaseAgility(1);
+                            break;
+                        case 3:
+                            IncreaseIntelegence(1);
+                            break;
+                    }
+                    --levelPoint;
+                    maxExp += 5;
+                    if (levelPoint == 0)
+                    {
+                        return;
+                    }
+                }
+                LevelUp();
             }
         }
     }

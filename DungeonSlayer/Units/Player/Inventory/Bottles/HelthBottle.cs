@@ -13,13 +13,18 @@ namespace DungeonSlayer.Units.Player.Inventory
             name = "Склянка с жизнью";
         }
 
-        public void Use()
+        public override void Use()
         {
             Game.player.helth += 20;
             if (Game.player.helth > Game.player.maxHelth)
             {
                 Game.player.helth = Game.player.maxHelth;
             }
+        }
+
+        public override string GetInfo()
+        {
+            return "Восстанавливает 20 жизней";
         }
     }
 }
