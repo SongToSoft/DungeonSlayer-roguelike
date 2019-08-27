@@ -1,14 +1,11 @@
-﻿using DungeonSlayer.Units.Enemy;
+﻿using DungeonSlayer.Units.Enemies;
+using DungeonSlayer.Units.Players;
+using DungeonSlayer.Units.Players.Perks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DungeonSlayer
+namespace DungeonSlayer.Units
 {
-    class Persona : MapObjects.Unit
+    class Persona : Unit
     {
         public string name;
         public int helth = 100, maxHelth = 100;
@@ -21,54 +18,66 @@ namespace DungeonSlayer
 
         public void Attack(Persona persona)
         {
-            StatusLine.AddLine(" " + name + " атакует " + persona.name + '\n');
+            StatusLine.AddLine(" " + name + " attack " + persona.name + '\n');          
             persona.ReceiveAttack(attack, this);
+            if (this is Player)
+            {
+                if (Game.player.perksSystem.CheckPerk(PerksList.doubleAttackPerk))
+                {
+                    StatusLine.AddLine(" " + Game.player.name + " do double attack \n");
+                    persona.ReceiveAttack(attack, this);
+                }
+            }
         }
 
         public void ReceiveAttack(int attack, Persona whoMadeAttack)
         {
             if (DungeonGenerator.random.Next(0, 100) > whoMadeAttack.accuracy)
             {
-                StatusLine.AddLine(" " + whoMadeAttack.name + " промахнулся по " + name + "\n");
+                StatusLine.AddLine(" " + whoMadeAttack.name + " miss on " + name + "\n");
             }
             else
             {
                 if (DungeonGenerator.random.Next(0, 100) < evasion)
                 {
-                    StatusLine.AddLine(" " + name + " уклонился от удара\n");
+                    StatusLine.AddLine(" " + name + " dodged an attack\n");
                 }
                 else
                 {
                     int damage = attack - blocking;
-                    StatusLine.AddLine(" " + whoMadeAttack.name + " попал по " + name + "\n");
+                    if (damage < 0)
+                    {
+                        damage = 0;
+                    }
+                    StatusLine.AddLine(" " + whoMadeAttack.name + " hit " + name + "\n");
                     if (DungeonGenerator.random.Next(0, 100) < whoMadeAttack.criticalChance)
                     {
-                        StatusLine.AddLine(" " + whoMadeAttack.name + " нанёс критический удар по " + name + "\n");
+                        StatusLine.AddLine(" " + whoMadeAttack.name + " critical hit on" + name + "\n");
                         damage *= 2;
                     }
-                    StatusLine.AddLine(" " + name + " получил урон " + damage + "\n");
+                    StatusLine.AddLine(" " + name + " received damage " + damage + "\n");
                     if (damage > 0)
                     {
                         helth -= damage;
                     }
-                    StatusLine.AddLine(" У " + name + " осталось жизней " + ((helth >= 0) ? Convert.ToString(helth) : " 0") + "\n");
+                    StatusLine.AddLine(" " + name + " has helth: " + ((helth >= 0) ? Convert.ToString(helth) : "0") + "\n");
                     if (helth <= 0)
                     {
-                        StatusLine.AddLine(" " + name + " убит\n");
+                        StatusLine.AddLine(" " + name + " killed\n");
                         if (!(this is Player))
                         {
                             Game.player.specification.currentExp += (this as Enemy).expectedExp;
                             if (Game.player.specification.currentExp >= Game.player.specification.maxExp)
                             {
-                                ++Game.player.specification.level;
                                 ++Game.player.specification.levelPoint;
+                                ++Game.player.specification.level;
                                 int remainder = Game.player.specification.currentExp - Game.player.specification.maxExp;
                                 Game.player.specification.currentExp = remainder;
                             }
                             Game.player.currentGold += (this as Enemy).expectedGold;
-                            StatusLine.AddLine(" " + Game.player.name + " получил" +
-                                              ((Game.player.specification.gender == EGender.FEMALE) ? "а " : " ") + "опыт: " +
-                                              (this as Enemy).expectedExp + ", деньги: " + (this as Enemy).expectedGold + "\n");
+                            StatusLine.AddLine(" " + Game.player.name + " received" +
+                                              ((Game.player.specification.gender == EGender.FEMALE) ? "а " : " ") + "experience: " +
+                                              (this as Enemy).expectedExp + ", gold: " + (this as Enemy).expectedGold + "\n");
                         }
                         else
                         {

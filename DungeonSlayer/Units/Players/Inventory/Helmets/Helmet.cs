@@ -1,22 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
-namespace DungeonSlayer.Units.Player.Inventory
+namespace DungeonSlayer.Units.Players.Inventory.Helmets
 {
     class Helmet : Item
     {
         public int blockingValue;
         public Vector3 increasingStats;
 
-        public Helmet(string _name, int _blockingValue, Vector3 _increasingStats)
+        public Helmet(string _name, int _blockingValue, Vector3 _increasingStats, int _cost, int _level)
         {
             name = _name;
             blockingValue = _blockingValue;
             increasingStats = _increasingStats;
+            cost = _cost;
+            level = _level;
         }
 
         public override void Use()
@@ -27,8 +24,8 @@ namespace DungeonSlayer.Units.Player.Inventory
 
         public override string GetInfo()
         {
-            return " Защита: " + blockingValue +
-                   ", Увеличение характеристик: S - " + increasingStats.X +
+            return " Defense: " + blockingValue + ", Cost: " + cost +
+                   ", Increasing Stats: S - " + increasingStats.X +
                    ", A - " + increasingStats.Y +
                    ", I - " + increasingStats.Z;
         }

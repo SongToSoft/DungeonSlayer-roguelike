@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DungeonSlayer.MapObjects
+namespace DungeonSlayer.Units
 {
     class Unit
     {
@@ -31,8 +27,8 @@ namespace DungeonSlayer.MapObjects
                 do
                 {
                     checkPosition = false;
-                    position = new Vector2(DungeonGenerator.random.Next((int)Game.world.dungeon.rooms[roomId].position.X + 1, (int)Game.world.dungeon.rooms[roomId].position.X + Game.world.dungeon.rooms[roomId].height),
-                                           DungeonGenerator.random.Next((int)Game.world.dungeon.rooms[roomId].position.Y + 1, (int)Game.world.dungeon.rooms[roomId].position.Y + Game.world.dungeon.rooms[roomId].width - 3));
+                    position = new Vector2(DungeonGenerator.random.Next((int)Game.world.dungeon.rooms[roomId].GetPosition().X + 3, (int)Game.world.dungeon.rooms[roomId].GetPosition().X + Game.world.dungeon.rooms[roomId].GetHeight()),
+                                           DungeonGenerator.random.Next((int)Game.world.dungeon.rooms[roomId].GetPosition().Y + 3, (int)Game.world.dungeon.rooms[roomId].GetPosition().Y + Game.world.dungeon.rooms[roomId].GetWidth() - 3));
                     if ((position.X >= Game.world.height) || (position.Y >= Game.world.width))
                     {
                         checkPosition = true;

@@ -1,10 +1,4 @@
-﻿using DungeonSlayer.MapObjects;
-using DungeonSlayer.Units.Enemy;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace DungeonSlayer.Units.NPC
 {

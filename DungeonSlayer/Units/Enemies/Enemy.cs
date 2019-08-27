@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DungeonSlayer.Units.Enemy
+﻿namespace DungeonSlayer.Units.Enemies
 {
     class Enemy : Persona
     {

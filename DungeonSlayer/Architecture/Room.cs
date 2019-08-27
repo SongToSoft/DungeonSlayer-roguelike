@@ -1,28 +1,26 @@
-﻿using DungeonSlayer.Architecture;
-using DungeonSlayer.MapObjects;
-using DungeonSlayer.Units.Enemy;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DungeonSlayer
+namespace DungeonSlayer.Architecture
 {
-    class Room
+    enum ERoomLocation
     {
-        public int index; 
-        public Vector2 position;
-        public int height;
-        public int width;
-        public char[,] places;
-        public List<Pillar> pillars;
+        TOP,
+        DOWN
+    }
 
-        public Room(Vector2 _position, int _height, int _width, int _index)
+    class Room : ArchitectureObject
+    {
+        public int index;
+        public ERoomLocation roomLocation;
+        public List<ArchitectureObject> objects;
+ 
+        public Room(Vector2 _position, int _height, int _width, int _index, ERoomLocation _roomLocation = ERoomLocation.TOP)
         {
+            roomLocation = _roomLocation;
             index = _index;
-            pillars = new List<Pillar>();
+            objects = new List<ArchitectureObject>();
             position = _position;
             height = _height;
             width = _width;
@@ -48,7 +46,8 @@ namespace DungeonSlayer
                     }
                 }
             }
-            DungeonGenerator.AddPillars(ref pillars, position, height, width);
+            DungeonGenerator.AddPillars(ref objects, position, height, width);
+            DungeonGenerator.AddWalls(ref objects, position, height, width);
         }
 
         public bool Contain(Room room)
@@ -63,7 +62,7 @@ namespace DungeonSlayer
             return false;
         }
 
-        public void Draw()
+        public new void Draw()
         {           
             for (int i = 0; i < height; ++i)
             {
@@ -76,9 +75,9 @@ namespace DungeonSlayer
                     }
                 }
             }
-            for (int i = 0; i < pillars.Count; ++i)
+            for (int i = 0; i < objects.Count; ++i)
             {
-                pillars[i].Draw();
+                objects[i].Draw();
             }
         }
     }

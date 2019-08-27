@@ -1,17 +1,7 @@
-﻿using DungeonSlayer.Architecture;
-using DungeonSlayer.Location;
-using DungeonSlayer.MapObjects;
-using DungeonSlayer.Units.Enemy;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
-namespace DungeonSlayer
+namespace DungeonSlayer.Location
 {
-
     class World
     {
         public int height, width;

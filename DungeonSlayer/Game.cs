@@ -1,10 +1,13 @@
-﻿using System;
+﻿using DungeonSlayer.FileSystem;
+using DungeonSlayer.Location;
+using DungeonSlayer.Units.Players;
+using System;
 
 namespace DungeonSlayer
 {
     static class Game
     {
-        static public int currentLevel = 0, maxLevel = 0;
+        static public int currentDungeonLevel = 0, maxDungeonLevel = 0;
         static public int consoleHeight = 35, consoleWidth = 110;
         static public Player player;
         static public World world;
@@ -12,12 +15,12 @@ namespace DungeonSlayer
 
         static public void Start()
         {
-            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            ConsoleSupport.Setup();
             world = new World(consoleHeight, consoleWidth);
             consoleBuffer = new char[consoleHeight, consoleWidth];
             player = new Player();
             world.GoToHub();
-            //Menu.StartScreen();
+            Menu.StartScreen();
             Update();
         }
 
@@ -38,13 +41,10 @@ namespace DungeonSlayer
             if (player.isDead)
             {
                 //TODO: Del player save
-                StatusLine.AddLine("Player is dead");
+                StatusLine.AddLine("Player is dead, your character is deleted");
+                SaveSystem.DelCharacter();
                 Console.ReadKey();
             }
-            //else
-            //{
-            //    //TODO: Save character
-            //}
             Environment.Exit(0);
         }
 
@@ -69,8 +69,8 @@ namespace DungeonSlayer
                 Console.SetCursorPosition(world.width, i);
                 if (i == 1)
                 {
-                    Console.Write((currentLevel != 0) ? (" Уровень подземелья: " + currentLevel) :
-                                  (" Вы в безопасном месте  "));
+                    Console.Write((currentDungeonLevel != 0) ? (" Dungeon Level: " + currentDungeonLevel + "     ") :
+                                  (" You are in save place  "));
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace DungeonSlayer
                 }
             }
             Console.SetCursorPosition(0, world.height);
-            Console.WriteLine(" [W] - Up [D] - Right [S] - Down [A] - Left [I] - Inventory" +
+            Console.WriteLine(" [W] - Up [D] - Right [S] - Down [A] - Left [I] - Inventory [P] - Perks [M] - Magic List [Q] - Use Magic" +
                              ((player.specification.levelPoint != 0) ? " [U] - Level Up" : "              "));
 
             if (StatusLine.status != "")

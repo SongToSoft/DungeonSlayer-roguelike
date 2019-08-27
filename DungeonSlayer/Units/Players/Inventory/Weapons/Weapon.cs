@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Numerics;
 
-namespace DungeonSlayer.Units.Player.Inventory
+namespace DungeonSlayer.Units.Players.Inventory.Weapons
 {
     enum EWeaponType
     {
@@ -27,7 +22,7 @@ namespace DungeonSlayer.Units.Player.Inventory
         public EWeaponType type;
         public Vector3 increasingStats;
 
-        public Weapon(string _name, int _attack, int _accuracy, int _criticalChance, EWeaponType _type, Vector3 _increasingStats)
+        public Weapon(string _name, int _attack, int _accuracy, int _criticalChance, EWeaponType _type, Vector3 _increasingStats, int _cost, int _level)
         {
             name = _name;
             attack = _attack;
@@ -35,6 +30,8 @@ namespace DungeonSlayer.Units.Player.Inventory
             increasingStats = _increasingStats;
             accuracy = _accuracy;
             criticalChance = _criticalChance;
+            cost = _cost;
+            level = _level;
         }
 
         public override void Use()
@@ -45,9 +42,10 @@ namespace DungeonSlayer.Units.Player.Inventory
 
         public override string GetInfo()
         {
-            return " Тип: " + type +
-                   ", Атака: " + attack +
-                   ", Увеличение характеристик: S - " + increasingStats.X +
+            return " Type: " + type +
+                   ", Attack: " + attack + ", Cost: " + cost +
+                   ", Accuracy: " + accuracy + ", Critical Chance: " + criticalChance +
+                   ", Increasing Stats: S - " + increasingStats.X +
                    ", A - " + increasingStats.Y +
                    ", I - " + increasingStats.Z;
         }

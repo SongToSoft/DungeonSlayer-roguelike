@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DungeonSlayer.MapObjects
+namespace DungeonSlayer.Units
 {
     enum EPortalStatus
     {
@@ -12,6 +8,7 @@ namespace DungeonSlayer.MapObjects
         HUB,
         CURRENT_DUNGEON
     }
+
     class Portal : Unit
     {
         public EPortalStatus status; 

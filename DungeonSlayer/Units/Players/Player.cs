@@ -1,29 +1,30 @@
-﻿using DungeonSlayer.MapObjects;
-using DungeonSlayer.Units.Enemy;
+﻿using DungeonSlayer.FileSystem;
+using DungeonSlayer.Units.Enemies;
+using DungeonSlayer.Units.Players.Inventory;
+using DungeonSlayer.Units.Players.Magics;
+using DungeonSlayer.Units.Players.Perks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DungeonSlayer
+namespace DungeonSlayer.Units.Players
 {
     class Player : Persona
     {
         public PlayerSpecifications specification;
         public PlayerInventory inventory;
-        //public Vector2 vision = new Vector2(20, 70);
-        public int currentGold = 100;
+        public PerksSystem perksSystem;
+        public MagicSystem magicSystem;
+        public int currentGold = 5;
         public bool isDead = false, isMove = false;
 
         public Player()
         {
-            name = "Игрок";
+            name = "Player";
             form = '@';
             color = ConsoleColor.Red;
             specification = new PlayerSpecifications();
             inventory = new PlayerInventory();
+            perksSystem = new PerksSystem();
+            magicSystem = new MagicSystem();
         }
 
         public void DrawInfo(int value)
@@ -32,115 +33,83 @@ namespace DungeonSlayer
             switch (value)
             {
                 case startValue:
-                    Console.WriteLine(" Имя: " + name);
+                    Console.WriteLine(" Name: " + name + "     ");
                     break;
                 case startValue + 1:
-                    Console.WriteLine(" Уровень: " + specification.level);
+                    Console.WriteLine(" Level: " + specification.level + "     ");
                     break;
                 case startValue + 2:
-                    Console.WriteLine(" Опыт: " + specification.currentExp + '/' + specification.maxExp);
+                    Console.WriteLine(" Experience: " + specification.currentExp + '/' + specification.maxExp + "     ");
                     break;
                 case startValue + 3:
-                    Console.WriteLine(" Жизни: " + helth + '/' + maxHelth + " Мана: " + mana + '/' + maxMana);
+                    Console.WriteLine(" Helth: " + helth + '/' + maxHelth + " Mana: " + mana + '/' + maxMana + "     ");
                     break;
                 case startValue + 4:
-                    Console.WriteLine(" Раса: " + specification.race);
+                    Console.WriteLine(" Race: " + specification.race + "     ");
                     break;
                 case startValue + 5:
-                    Console.WriteLine(" Пол: " + specification.gender);
+                    Console.WriteLine(" Gender: " + specification.gender + "     ");
                     break;
                 case startValue + 6:
-                    Console.WriteLine(" Класс: " + specification.specialization);
+                    Console.WriteLine(" Class: " + specification.specialization + "     ");
                     break;
                 case startValue + 7:
-                    Console.WriteLine(" Сила: " + specification.strength);
+                    Console.WriteLine(" Strength: " + specification.strength + "     ");
                     break;
                 case startValue + 8:
-                    Console.WriteLine(" Ловкость: " + specification.agility);
+                    Console.WriteLine(" Agility: " + specification.agility + "     ");
                     break;
                 case startValue + 9:
-                    Console.WriteLine(" Интелект: " + specification.intelligence);
+                    Console.WriteLine(" Intelligence: " + specification.intelligence + "     ");
                     break;
                 case startValue + 10:
-                    Console.WriteLine(" Сила заклинаний: " + specification.spellPower);
+                    Console.WriteLine(" Spell Power: " + specification.spellPower + "     ");
                     break;
                 case startValue + 11:
-                    Console.WriteLine(" Текущая атака: " + attack);
+                    Console.WriteLine(" Active Magic: " + ((magicSystem.activeMagic != null) ? magicSystem.activeMagic.name : "No active magic"));
                     break;
                 case startValue + 12:
-                    Console.WriteLine(" Блокируемый урон: " + blocking);
+                    Console.WriteLine(" Attack: " + attack + "     ");
                     break;
                 case startValue + 13:
-                    Console.WriteLine(" Шанс уклониться: " + evasion);
+                    Console.WriteLine(" Defense: " + blocking + "     ");
                     break;
                 case startValue + 14:
-                    Console.WriteLine(" Точность удара: " + accuracy);
+                    Console.WriteLine(" Evasion: " + evasion + "     ");
                     break;
                 case startValue + 15:
-                    Console.WriteLine(" Шанс критического удара: " + criticalChance);
+                    Console.WriteLine(" Accuracy: " + accuracy + "     ");
                     break;
                 case startValue + 16:
-                    Console.WriteLine(" Шлем: " + inventory.activeHelmet.name);
+                    Console.WriteLine(" Critical Chance: " + criticalChance + "     ");
                     break;
                 case startValue + 17:
-                    Console.WriteLine(" Доспех: " + inventory.activeArmor.name);
+                    Console.WriteLine(" Helmet: " + inventory.activeHelmet.name + "     ");
                     break;
                 case startValue + 18:
-                    Console.WriteLine(" Оружие: " + inventory.activeWeapon.name);
+                    Console.WriteLine(" Armor: " + inventory.activeArmor.name + "     ");
                     break;
                 case startValue + 19:
-                    Console.WriteLine(" Текущее количество золота: " + currentGold);
+                    Console.WriteLine(" Weapon: " + inventory.activeWeapon.name + "     ");
+                    break;
+                case startValue + 20:
+                    Console.WriteLine(" Gold: " + currentGold + "     ");
                     break;
             }
         }
-
-        public new void SetInRoom(int roomId)
-        {
-            for (int i = 0; i < Game.world.dungeon.units.Count; ++i)
-            {
-                if (Game.world.dungeon.units[i] is Portal)
-                {
-                    if (Game.world.map[(int)Game.world.dungeon.units[i].GetPosition().X, (int)Game.world.dungeon.units[i].GetPosition().Y + 1] == '.')
-                    {
-                        position = new Vector2(Game.world.dungeon.units[i].GetPosition().X, Game.world.dungeon.units[i].GetPosition().Y + 1);
-                    }
-                    else
-                    {
-                        if (Game.world.map[(int)Game.world.dungeon.units[i].GetPosition().X + 1, (int)Game.world.dungeon.units[i].GetPosition().Y] == '.')
-                        {
-                            position = new Vector2(Game.world.dungeon.units[i].GetPosition().X + 1, Game.world.dungeon.units[i].GetPosition().Y);
-                        }
-                        else
-                        {
-                            if (Game.world.map[(int)Game.world.dungeon.units[i].GetPosition().X, (int)Game.world.dungeon.units[i].GetPosition().Y - 1] == '.')
-                            {
-                                position = new Vector2(Game.world.dungeon.units[i].GetPosition().X, Game.world.dungeon.units[i].GetPosition().Y - 1);
-                            }
-                            else
-                            {
-                                if (Game.world.map[(int)Game.world.dungeon.units[i].GetPosition().X - 1, (int)Game.world.dungeon.units[i].GetPosition().Y] == '.')
-                                {
-                                    position = new Vector2(Game.world.dungeon.units[i].GetPosition().X - 1, Game.world.dungeon.units[i].GetPosition().Y);
-                                }
-                            }
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
         public void Update()
         {
             isMove = false;
             Console.SetCursorPosition(1, 1);
             StatusLine.status = "";
-            char command = Console.ReadKey().KeyChar;
+            char command = Console.ReadKey(true).KeyChar;
             switch (command)
             {
                 case 'w':
                 case 'W':
                     isMove = true;
+                    CheckChest((int)position.X - 1, (int)position.Y);
+                    CheckTrader((int)position.X - 1, (int)position.Y);
                     CheckInformant((int)position.X - 1, (int)position.Y);
                     CheckPortal((int)position.X - 1, (int)position.Y);
                     CheckAtack((int)position.X - 1, (int)position.Y);
@@ -149,6 +118,8 @@ namespace DungeonSlayer
                 case 'd':
                 case 'D':
                     isMove = true;
+                    CheckChest((int)position.X, (int)position.Y + 1);
+                    CheckTrader((int)position.X, (int)position.Y + 1);
                     CheckInformant((int)position.X, (int)position.Y + 1);
                     CheckPortal((int)position.X, (int)position.Y + 1);
                     CheckAtack((int)position.X, (int)position.Y + 1);
@@ -157,6 +128,8 @@ namespace DungeonSlayer
                 case 's':
                 case 'S':
                     isMove = true;
+                    CheckChest((int)position.X + 1, (int)position.Y);
+                    CheckTrader((int)position.X + 1, (int)position.Y);
                     CheckInformant((int)position.X + 1, (int)position.Y);
                     CheckPortal((int)position.X + 1, (int)position.Y);
                     CheckAtack((int)position.X + 1, (int)position.Y);
@@ -165,6 +138,8 @@ namespace DungeonSlayer
                 case 'a':
                 case 'A':
                     isMove = true;
+                    CheckChest((int)position.X, (int)position.Y - 1);
+                    CheckTrader((int)position.X, (int)position.Y - 1);
                     CheckInformant((int)position.X, (int)position.Y - 1);
                     CheckPortal((int)position.X, (int)position.Y - 1);
                     CheckAtack((int)position.X, (int)position.Y - 1);
@@ -177,6 +152,21 @@ namespace DungeonSlayer
                 case 'u':
                 case 'U':
                     specification.LevelUp();
+                    break;
+                case 'p':
+                case 'P':
+                    perksSystem.ShowPerks();
+                    break;
+                case 'q':
+                case 'Q':
+                    if (magicSystem.activeMagic != null)
+                    {
+                        magicSystem.activeMagic.Cast();
+                    }
+                    break;
+                case 'm':
+                case 'M':
+                    magicSystem.ShowMagics();
                     break;
             }
             Console.SetCursorPosition(1, 1);
@@ -211,6 +201,18 @@ namespace DungeonSlayer
                         }
                         if (portal.status == EPortalStatus.HUB)
                         {
+                            if (Game.player.magicSystem.isBuffAttack)
+                            {
+                                Game.player.attack -= 3;
+                                Game.player.magicSystem.isBuffAttack = false;
+                            }
+                            if (Game.player.magicSystem.isBuffEvasion)
+                            {
+                                Game.player.evasion -= 5;
+                                Game.player.magicSystem.isBuffEvasion = false;
+                            }
+                            SaveSystem.DelCharacter();
+                            SaveSystem.SaveCharacter();
                             Game.world.GoToHub();
                         }
                         if (portal.status == EPortalStatus.CURRENT_DUNGEON)
@@ -229,6 +231,35 @@ namespace DungeonSlayer
                 if (Game.world.map[i, j] == 'i')
                 {
                     StatusLine.ShowInfo();
+                }
+            }
+        }
+
+        public void CheckTrader(int i, int j)
+        {
+            if ((i < Game.world.height) && (j < Game.world.width))
+            {
+                if (Game.world.map[i, j] == 'T')
+                {
+                    Game.world.dungeon.ShowShop(i, j);
+                }
+            }
+        }
+
+        public void CheckChest(int i, int j)
+        {
+            if ((i < Game.world.height) && (j < Game.world.width))
+            {
+                if (Game.world.map[i, j] == 'C')
+                {
+                    Chest chest = Game.world.dungeon.GetChestOverPosition(i, j);
+                    if (chest != null)
+                    {
+                        if (chest.active)
+                        {
+                            inventory.items.Add(chest.GetBounty());
+                        }
+                    }
                 }
             }
         }

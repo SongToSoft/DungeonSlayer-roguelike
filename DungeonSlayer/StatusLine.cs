@@ -18,14 +18,12 @@ namespace DungeonSlayer
 
         static public void ShowInfo()
         {
-            status = " Привет путник. Давно в наших краях не было новых людей.\n" +
-                     " Всё началось с того момента, как тут открылся портал, ведущий прямиком в подземелья, находящиеся под городом.\n" +
-                     " Из него периодически на город нападают различные твари, от которых кое-как отбиваются стражники.\n" +
-                     " Если кто-то не спустится в низ и не закроет портал, то город так и будет уничтожен постоянными наплывами тьмы.\n" +
-                     " Все кто спускался вниз, говорят о том, что на каждом из этажей подземелий находятся два портала.\n" +
-                     " Первый ведёт обратно на эту улицу, второй телепортирует тебя на уровень ниже.\n" +
-                     " Если ты собираешься испытать свои силы в этом испытании, то можешь попробовать купить снаряжение у местного торговца.\n" +
-                     " Удачи путник в твоём пути.\n";                   
+            status = " Hello traveler. Are you new here?. \n" +
+                     " I will explain how everything is arranged here.\n" +
+                     " Now you are in save place. Here you can buy new items and go to the new Dungeon level.\n" +
+                     " On every Dungeon level you must go to the next portal, that will open the entrance to the next level.\n" +
+                     " Repeat it untill you dont go to the last Dungeon Level and kill Diablo.... oooouuu i want say kill the Devil.\n" +
+                     " After than your journey will be over. Good Luck\n";
         }
 
         //TODO: Improve this method
@@ -43,7 +41,7 @@ namespace DungeonSlayer
                 }
             }
             Console.SetCursorPosition((int)position.X, (int)position.Y);
-            Console.WriteLine(" Статус: ");
+            Console.WriteLine(" Status: ");
             Console.Write(status);
             bufferStatus = status;
             stringNum = 0;
@@ -52,7 +50,7 @@ namespace DungeonSlayer
         static public void DrawBuffer()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(" Статус: ");
+            Console.WriteLine(" Status: ");
             Console.WriteLine(bufferStatus);
         }
     }

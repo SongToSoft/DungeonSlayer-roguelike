@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DungeonSlayer.Units.Player.Inventory
+﻿namespace DungeonSlayer.Units.Players.Inventory.Bottles
 {
     class ManaBottle : Item
     {
         public ManaBottle()
         {
-            name = "Склянка с маной";
+            name = "Mana Bottle";
         }
 
         public override void Use()
@@ -24,7 +18,7 @@ namespace DungeonSlayer.Units.Player.Inventory
 
         public override string GetInfo()
         {
-            return "Восстанавливает 20 маны";
+            return "Restores 20 mana" + ", Cost: " + cost;
         }
     }
 }

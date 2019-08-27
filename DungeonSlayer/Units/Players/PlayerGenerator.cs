@@ -1,48 +1,63 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
-namespace DungeonSlayer
+namespace DungeonSlayer.Units.Players
 {
     static class PlayerGenerator
     {
         static public void SetupSpecifications(ref Player player)
         {
-            SetName(ref player);
+            Console.Clear();
+            while (!SetName(ref player)) {}
             SetSex(ref player);
             SetRace(ref player);
             SetClass(ref player);
-            Console.WriteLine("Для продолжения нажмите любую клавишу");
-            char command = Console.ReadKey().KeyChar;
+            Console.WriteLine(" Enter any key");
+            char command = Console.ReadKey(true).KeyChar;
             Console.Clear();
             Game.player.helth = Game.player.maxHelth;
             Game.player.mana = Game.player.maxMana;
         }
-        
-        static public void SetName(ref Player player)
+
+        static public bool SetName(ref Player player)
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Введите имя персонажа");
+            Console.WriteLine(" Enter hero name");
             Console.ForegroundColor = ConsoleColor.Yellow;
             string command = Console.ReadLine();
-            Console.WriteLine("Вы ввели имя: " + command);
-            player.name = command;
+            if ((command.Length == 0) || (command.Length > 15))
+            {
+                Console.WriteLine(" Length of hero name must be more than 0 and less than 15");
+                return false;
+            }
+            else
+            {
+                if (File.Exists(command + ".json"))
+                {
+                    Console.WriteLine(" The hero with same name was created yet");
+                    return false;
+                }
+                else
+                {
+                    Console.WriteLine(" You enter name: " + command);
+                    player.name = command;
+                    return true;
+                }
+            }
         }
 
         static private void SetSex(ref Player player)
         {
             bool isSet = true;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Выберите ваш пол:");
+            Console.WriteLine(" Chose gender:");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("[M] - мужчина: +1 к силе");
-            Console.WriteLine("[F] - женщина: +1 к ловкости");
+            Console.WriteLine(" [M] - male: +1 strength");
+            Console.WriteLine(" [F] - female: +1 agility");
 
             while (isSet)
             {
-                char command = Console.ReadKey().KeyChar;
+                char command = Console.ReadKey(true).KeyChar;
                 isSet = false;
                 switch (command)
                 {
@@ -50,18 +65,18 @@ namespace DungeonSlayer
                     case 'M':
                         player.specification.SetGender(EGender.MALE);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы выбрали Мужской пол");
+                        Console.WriteLine(" You chose male");
                         break;
                     case 'f':
                     case 'F':
                         player.specification.SetGender(EGender.FEMALE);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы выбрали Женский пол");
+                        Console.WriteLine(" You chose female");
                         break;
                     default:
                         isSet = true;
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Неверный выбор");
+                        Console.WriteLine(" Incorrect chose");
                         break;
 
                 }
@@ -72,15 +87,15 @@ namespace DungeonSlayer
         {
             bool isSet = true;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Выберите вашу специализацию:");
+            Console.WriteLine(" Chose your class:");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("[K] - Рыцарь: +1 сила, +1 ловкость, железный сет");
-            Console.WriteLine("[B] - Варвар: +2 сила, кожанный доспех, железная булава");
-            Console.WriteLine("[P] - Следопыт: +2 ловкость, кожанный сет, железный кинжал");
-            Console.WriteLine("[N] - Никто");
+            Console.WriteLine(" [K] - Knight: +1 strength, +1 agility, Iron set");
+            Console.WriteLine(" [B] - Barbarian: +2 strength, Leather armor, Iron Mace");
+            Console.WriteLine(" [P] - Pathfinder: +2 agility, Leather set, iron dagger");
+            Console.WriteLine(" [N] - Nameless");
             while (isSet)
             {
-                char command = Console.ReadKey().KeyChar;
+                char command = Console.ReadKey(true).KeyChar;
                 isSet = false;
                 switch (command)
                 {
@@ -88,30 +103,30 @@ namespace DungeonSlayer
                     case 'K':
                         player.specification.SetSpecialization(EClass.KNIGHT);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы выбрали специализацию Рыцаря");
+                        Console.WriteLine(" You chose Knight");
                         break;
                     case 'b':
                     case 'B':
                         player.specification.SetSpecialization(EClass.BARBARIAN);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы выбрали специализацию Варвара");
+                        Console.WriteLine(" You chose Barbarian");
                         break;
                     case 'p':
                     case 'P':
                         player.specification.SetSpecialization(EClass.PATHFINDER);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы выбрали специализацию Следопыта");
+                        Console.WriteLine(" You chose Pathfinder");
                         break;
                     case 'n':
                     case 'N':
                         player.specification.SetSpecialization(EClass.NOBODY);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы отказались от выбора специализации");
+                        Console.WriteLine(" You refused to choose a class");
                         break;
                     default:
                         isSet = true;
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Неверный выбор");
+                        Console.WriteLine(" Incorrect chose");
                         break;
                 }
             }
@@ -121,14 +136,16 @@ namespace DungeonSlayer
         {
             bool isSet = true;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Выберите вашу расу:");
+            Console.WriteLine(" Chose your race:");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("[H] - Человек: +20 к максимальному запасу маны и здоровья");
-            Console.WriteLine("[E] - Эльф: +1 к ловкости и интелекту, +1 к урону от кинжалов");
-            Console.WriteLine("[D] - Дварф: +2 к силе, +1 к урону от булав и топоров");
+            Console.WriteLine(" [H] - Human: +20 max HP and MANA");
+            Console.WriteLine(" [E] - ELF: +1 agility and Intelligence, +1 attack with dagger");
+            Console.WriteLine(" [D] - Dvarf: +2 strength, +1 attack with Mace and Axe");
+            Console.WriteLine(" [O] - Ork: +5 strength, +1 attack with Mace, +5 blocking damage, You always will have 0 evasion");
+            Console.WriteLine(" [G] - Goblin: +3 agility, 20 max HP, +3 evasion, Heal Spell");
             while (isSet)
             {
-                char command = Console.ReadKey().KeyChar;
+                char command = Console.ReadKey(true).KeyChar;
                 isSet = false;
                 switch (command)
                 {
@@ -136,24 +153,36 @@ namespace DungeonSlayer
                     case 'H':
                         player.specification.SetRace(ERaсe.HUMAN);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы выбрали расу Человек");
+                        Console.WriteLine(" You chose Human");
                         break;
                     case 'e':
                     case 'E':
                         player.specification.SetRace(ERaсe.ELF);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы выбрали расу Эльф");
+                        Console.WriteLine(" You chose Elf");
                         break;
                     case 'd':
                     case 'D':
                         player.specification.SetRace(ERaсe.DWARF);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine("Вы выбрали расу Дварф");
+                        Console.WriteLine(" You chose Dvarf");
+                        break;
+                    case 'o':
+                    case 'O':
+                        player.specification.SetRace(ERaсe.ORC);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(" You chose Orc");
+                        break;
+                    case 'g':
+                    case 'G':
+                        player.specification.SetRace(ERaсe.GOBLIN);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(" You chose Goblin");
                         break;
                     default:
                         isSet = true;
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Неверный выбор");
+                        Console.WriteLine(" Incorrect chose");
                         break;
                 }
             }
