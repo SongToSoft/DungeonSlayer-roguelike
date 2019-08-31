@@ -167,7 +167,10 @@ namespace DungeonSlayer.Units.Players.Inventory
                     if ((itemIndex <= items.Count) && (itemIndex > 0))
                     {
                         items[itemIndex - 1].Use();
-                        items.RemoveAt(itemIndex - 1);
+                        if (!(((items[itemIndex - 1] is Armor) || (items[itemIndex - 1] is Helmet)) && (Game.player.specification.race == ERaсe.MINOTAUR)))
+                        {
+                            items.RemoveAt(itemIndex - 1);
+                        }
                     }
                 }
                 else

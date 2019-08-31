@@ -16,9 +16,9 @@ namespace DungeonSlayer.Units.Players
         KNIGHT,
         BARBARIAN,
         PATHFINDER,
-        VAMPIRE,
         MAG,
         WARLOCK,
+        THIEF,
         NOBODY
     }
     
@@ -28,15 +28,17 @@ namespace DungeonSlayer.Units.Players
         ELF,
         DWARF,
         ORC,
-        TROLL,
         GOBLIN,
+        TROLL,
+        MINOTAUR,
+        UNDEAD
     }
 
     class PlayerSpecifications
     {
         public int level = 1;
         public int currentExp = 0;
-        public int maxExp = 10;
+        public int maxExp = 20;
         public EGender gender = EGender.MALE;
         public EClass specialization = EClass.KNIGHT;
         public ERaсe race = ERaсe.HUMAN;
@@ -68,19 +70,58 @@ namespace DungeonSlayer.Units.Players
                 case EClass.KNIGHT:
                     IncreaseStrength(1);
                     IncreaseAgility(1);
-                    Game.player.inventory.SetActiveArmor(ItemsList.ironArmor);
-                    Game.player.inventory.SetActiveHelmet(ItemsList.ironHelmet);
+                    if (race != ERaсe.MINOTAUR)
+                    {
+                        Game.player.inventory.SetActiveArmor(ItemsList.ironArmor);
+                        Game.player.inventory.SetActiveHelmet(ItemsList.ironHelmet);
+                    }
                     Game.player.inventory.SetActiveWeapon(ItemsList.ironSword);
                     break;
                 case EClass.BARBARIAN:
                     IncreaseStrength(2);
-                    Game.player.inventory.SetActiveArmor(ItemsList.leatherArmor);
+                    if (race != ERaсe.MINOTAUR)
+                    {
+                        Game.player.inventory.SetActiveArmor(ItemsList.leatherArmor);
+                    }
                     Game.player.inventory.SetActiveWeapon(ItemsList.ironMace);
                     break;
                 case EClass.PATHFINDER:
                     IncreaseAgility(2);
-                    Game.player.inventory.SetActiveArmor(ItemsList.leatherArmor);
-                    Game.player.inventory.SetActiveHelmet(ItemsList.leatherHelmet);
+                    if (race != ERaсe.MINOTAUR)
+                    {
+                        Game.player.inventory.SetActiveArmor(ItemsList.leatherArmor);
+                        Game.player.inventory.SetActiveHelmet(ItemsList.leatherHelmet);
+                    }
+                    Game.player.inventory.SetActiveWeapon(ItemsList.ironDagger);
+                    break;
+                case EClass.MAG:
+                    IncreaseIntelligence(2);
+                    Game.player.maxMana += 10;
+                    Game.player.mana += 10;
+                    if (race != ERaсe.MINOTAUR)
+                    {
+                        Game.player.inventory.SetActiveArmor(ItemsList.robeStudent);
+                        Game.player.inventory.SetActiveHelmet(ItemsList.hoodStudent);
+                    }
+                    Game.player.inventory.SetActiveWeapon(ItemsList.woodStaff);
+                    Game.player.magicSystem.AddSpell(MagicList.fireBlastMagic);
+                    break;
+                case EClass.WARLOCK:
+                    IncreaseIntelligence(1);
+                    IncreaseStrength(1);
+                    Game.player.maxMana += 20;
+                    Game.player.mana += 20;
+                    if (race != ERaсe.MINOTAUR)
+                    {
+                        Game.player.inventory.SetActiveArmor(ItemsList.robeStudent);
+                        Game.player.inventory.SetActiveHelmet(ItemsList.hoodStudent);
+                    }
+                    Game.player.inventory.SetActiveWeapon(ItemsList.woodStaff);
+                    Game.player.magicSystem.AddSpell(MagicList.buffBlockMagic);
+                    break;
+                case EClass.THIEF:
+                    IncreaseAgility(3);
+                    Game.player.perksSystem.AddPerk(PerksList.receiverPerk);
                     Game.player.inventory.SetActiveWeapon(ItemsList.ironDagger);
                     break;
                 case EClass.NOBODY:
@@ -100,12 +141,12 @@ namespace DungeonSlayer.Units.Players
                     Game.player.mana += 20;
                     break;
                 case ERaсe.ELF:
-                    IncreaseAgility(1);
-                    IncreaseIntelligence(1);
+                    IncreaseAgility(2);
+                    IncreaseIntelligence(2);
                     Game.player.perksSystem.AddPerk(PerksList.daggerPerk);
                     break;
                 case ERaсe.DWARF:
-                    IncreaseStrength(2);
+                    IncreaseStrength(3);
                     Game.player.perksSystem.AddPerk(PerksList.macePerk);
                     Game.player.perksSystem.AddPerk(PerksList.axePerk);
                     break;
@@ -115,18 +156,32 @@ namespace DungeonSlayer.Units.Players
                     Game.player.blocking = 5;
                     Game.player.evasion = 0;
                     break;                   
-                case ERaсe.TROLL:
-                    //TODO: End of this race
-                    Game.player.perksSystem.AddPerk(PerksList.spearPerk);
-                    Game.player.perksSystem.AddPerk(PerksList.doubleAttackPerk);
-                    Game.player.criticalChance = 10;
-                    break;
                 case ERaсe.GOBLIN:
                     IncreaseAgility(3);
                     Game.player.maxHelth -= 30;
                     Game.player.helth -= 30;
                     Game.player.evasion += 3;
                     Game.player.magicSystem.AddSpell(MagicList.healMagic);
+                    break;
+                case ERaсe.TROLL:
+                    Game.player.perksSystem.AddPerk(PerksList.spearPerk);
+                    Game.player.perksSystem.AddPerk(PerksList.doubleAttackPerk);
+                    Game.player.criticalChance = 10;
+                    Game.player.maxHelth -= 15;
+                    Game.player.helth -= 15;
+                    Game.player.maxMana -= 20;
+                    Game.player.mana -= 20;
+                    break;
+                case ERaсe.MINOTAUR:
+                    IncreaseStrength(10);
+                    Game.player.magicSystem.AddSpell(MagicList.stunMagic);
+                    Game.player.inventory.SetActiveArmor(ItemsList.withoutArmor);
+                    Game.player.inventory.SetActiveHelmet(ItemsList.withoutHelmet);
+                    break;
+                case ERaсe.UNDEAD:
+                    Game.player.maxHelth -= 20;
+                    Game.player.helth -= 20;
+                    Game.player.perksSystem.AddPerk(PerksList.cannibalPerk);
                     break;
             }
         }
@@ -234,7 +289,6 @@ namespace DungeonSlayer.Units.Players
                             perkMultiply = 0;
                             Console.WriteLine(" You can chose new Perk in Perks List");
                         }
-                        maxExp += 5;
                         choseStat = false;
                     }
                     else

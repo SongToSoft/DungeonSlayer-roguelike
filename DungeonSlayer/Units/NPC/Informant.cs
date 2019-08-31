@@ -4,7 +4,7 @@
     {
         public Informant()
         {
-            form = 'i';
+            form = 'I';
         }
     }
 }

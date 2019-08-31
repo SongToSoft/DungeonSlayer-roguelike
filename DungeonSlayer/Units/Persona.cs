@@ -15,16 +15,17 @@ namespace DungeonSlayer.Units
         public int blocking = 0;
         public int accuracy = 95;
         public int criticalChance = 0;
+        public bool inStun = false;
 
         public void Attack(Persona persona)
         {
-            StatusLine.AddLine(" " + name + " attack " + persona.name + '\n');          
+            StatusLine.AddLine(" " + name + " attack " + persona.name);          
             persona.ReceiveAttack(attack, this);
             if (this is Player)
             {
-                if (Game.player.perksSystem.CheckPerk(PerksList.doubleAttackPerk))
+                if (Game.player.perksSystem.CheckPerk(PerksList.doubleAttackPerk) && (persona.helth > 0))
                 {
-                    StatusLine.AddLine(" " + Game.player.name + " do double attack \n");
+                    StatusLine.AddLine(" " + Game.player.name + " do double attack");
                     persona.ReceiveAttack(attack, this);
                 }
             }
@@ -34,61 +35,93 @@ namespace DungeonSlayer.Units
         {
             if (DungeonGenerator.random.Next(0, 100) > whoMadeAttack.accuracy)
             {
-                StatusLine.AddLine(" " + whoMadeAttack.name + " miss on " + name + "\n");
+                StatusLine.AddLine(" " + whoMadeAttack.name + " miss on " + name);
             }
             else
             {
                 if (DungeonGenerator.random.Next(0, 100) < evasion)
                 {
-                    StatusLine.AddLine(" " + name + " dodged an attack\n");
+                    StatusLine.AddLine(" " + name + " dodged an attack");
                 }
                 else
                 {
-                    int damage = attack - blocking;
-                    if (damage < 0)
+                    if ((this is Player) &&
+                         Game.player.perksSystem.CheckPerk(PerksList.doubleMissPerk) &&
+                         (DungeonGenerator.random.Next(0, 100) < evasion))
                     {
-                        damage = 0;
+                        StatusLine.AddLine(" " + name + " dodged an attack due to perk");
                     }
-                    StatusLine.AddLine(" " + whoMadeAttack.name + " hit " + name + "\n");
-                    if (DungeonGenerator.random.Next(0, 100) < whoMadeAttack.criticalChance)
+                    else
                     {
-                        StatusLine.AddLine(" " + whoMadeAttack.name + " critical hit on" + name + "\n");
-                        damage *= 2;
-                    }
-                    StatusLine.AddLine(" " + name + " received damage " + damage + "\n");
-                    if (damage > 0)
-                    {
-                        helth -= damage;
-                    }
-                    StatusLine.AddLine(" " + name + " has helth: " + ((helth >= 0) ? Convert.ToString(helth) : "0") + "\n");
-                    if (helth <= 0)
-                    {
-                        StatusLine.AddLine(" " + name + " killed\n");
-                        if (!(this is Player))
+                        int damage = attack - blocking;
+                        if (damage < 0)
                         {
-                            Game.player.specification.currentExp += (this as Enemy).expectedExp;
-                            if (Game.player.specification.currentExp >= Game.player.specification.maxExp)
+                            damage = 0;
+                        }
+                        StatusLine.AddLine(" " + whoMadeAttack.name + " hit " + name);
+                        if (DungeonGenerator.random.Next(0, 100) < whoMadeAttack.criticalChance)
+                        {
+                            StatusLine.AddLine(" " + whoMadeAttack.name + " critical hit on " + name);
+                            damage *= 2;
+                        }
+                        StatusLine.AddLine(" " + name + " received damage " + damage);
+                        if (damage > 0)
+                        {
+                            helth -= damage;
+                        }
+                        StatusLine.AddLine(" " + name + " has helth: " + ((helth >= 0) ? Convert.ToString(helth) : "0"));
+                        if (helth <= 0)
+                        {
+                            StatusLine.AddLine(" " + name + " killed");
+                            if (!(this is Player))
                             {
-                                ++Game.player.specification.levelPoint;
-                                ++Game.player.specification.level;
-                                int remainder = Game.player.specification.currentExp - Game.player.specification.maxExp;
-                                Game.player.specification.currentExp = remainder;
+                                int expectedExp = (this as Enemy).expectedExp;
+                                int expectedGold = (this as Enemy).expectedGold;
+                                if (Game.player.perksSystem.CheckPerk(PerksList.receiverPerk))
+                                {
+                                    expectedExp += (int)(expectedExp * 0.2);
+                                    expectedGold += (int)(expectedGold * 0.2);
+                                }
+                                Game.player.specification.currentExp += expectedExp;
+                                Game.player.currentGold += expectedGold;
+                                if (Game.player.specification.currentExp >= Game.player.specification.maxExp)
+                                {
+                                    ++Game.player.specification.levelPoint;
+                                    ++Game.player.specification.level;
+                                    int remainder = Game.player.specification.currentExp - Game.player.specification.maxExp;
+                                    Game.player.specification.currentExp = remainder;
+                                    Game.player.specification.maxExp += 5;
+                                }
+                                StatusLine.AddLine(" " + Game.player.name + " received experience: " +
+                                                  expectedExp + ", gold: " + expectedGold);
+                                if (this.name == "Diablo")
+                                {
+                                    StatusLine.AddLine(" YOU KILL DIABLO, AND NOW YOU END OF GAME");
+                                    Console.ReadKey();
+                                    Game.EndGame(true);
+                                }
+                                if (Game.player.perksSystem.CheckPerk(PerksList.cannibalPerk))
+                                {
+                                    int canHeal = (int)(Game.player.maxHelth * 0.2);
+                                    Game.player.helth += canHeal;
+                                    if (Game.player.helth > Game.player.maxHelth)
+                                    {
+                                        Game.player.helth = Game.player.maxHelth;
+                                    }
+                                    StatusLine.AddLine(" " + Game.player.name + " after kill " + this.name + " heal " + canHeal);
+                                }
                             }
-                            Game.player.currentGold += (this as Enemy).expectedGold;
-                            StatusLine.AddLine(" " + Game.player.name + " received" +
-                                              ((Game.player.specification.gender == EGender.FEMALE) ? "а " : " ") + "experience: " +
-                                              (this as Enemy).expectedExp + ", gold: " + (this as Enemy).expectedGold + "\n");
+                            else
+                            {
+                                (this as Player).isDead = true;
+                                Game.EndGame();
+                            }
+                            if (this is Enemy)
+                            {
+                                Game.world.dungeon.enemyes.Remove(this as Enemy);
+                            }
                         }
-                        else
-                        {
-                            (this as Player).isDead = true;
-                            Game.EndGame();
-                        }
-                        if (this is Enemy)
-                        {
-                            Game.world.dungeon.enemyes.Remove(this as Enemy);
-                        }
-                    }
+                    }                    
                 }
             }
         }

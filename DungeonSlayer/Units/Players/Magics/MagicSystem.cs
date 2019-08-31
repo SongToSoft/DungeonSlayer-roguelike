@@ -8,9 +8,9 @@ namespace DungeonSlayer.Units.Players.Magics
 {
     class MagicSystem
     {
-        public Magic activeMagic = MagicList.buffAttackMagic;
+        public Magic activeMagic = MagicList.emptyMagic;
         public List<Magic> availibleMagics;
-        public bool isBuffAttack = false, isBuffEvasion = false;
+        public bool isBuffAttack = false, isBuffEvasion = false, isBuffBlocking = false;
         public int magicPoint = 0;
 
         public MagicSystem()
@@ -23,13 +23,13 @@ namespace DungeonSlayer.Units.Players.Magics
             if (!availibleMagics.Contains(newMagic))
             {
                 availibleMagics.Add(newMagic);
-                if (activeMagic == null)
+                if (activeMagic == MagicList.emptyMagic)
                 {
                     activeMagic = newMagic;
                 }
             }
         }
-
+     
         public void ShowMagics()
         {
             Console.Clear();
@@ -43,6 +43,19 @@ namespace DungeonSlayer.Units.Players.Magics
                                (activeMagic.name + ", " + activeMagic.info + ", Cost: " + activeMagic.cost) 
                                : ""));
             Console.WriteLine();
+            if (isBuffAttack)
+            {
+                Console.WriteLine(" You have buff on Attack");
+            }
+            if (isBuffEvasion)
+            {
+                Console.WriteLine(" You have buff on Evasion");
+            }
+            if (isBuffBlocking)
+            {
+                Console.WriteLine(" You have buff on Blocking");
+            }
+            Console.WriteLine();
             if (availibleMagics.Count == 0)
             {
                 Console.WriteLine(" You dont have availible magic spell");
@@ -54,6 +67,7 @@ namespace DungeonSlayer.Units.Players.Magics
                     Console.WriteLine(" [" + (i + 1) + "]: " + availibleMagics[i].name + ", " + availibleMagics[i].info + ", Cost: " + availibleMagics[i].cost);
                 }
             }
+            Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Cyan;
             if (magicPoint > 0)
             {
@@ -81,7 +95,6 @@ namespace DungeonSlayer.Units.Players.Magics
                             return;
                         }
                     }
-                    //TODO: Workaround
                     if (Int32.TryParse(command, out int magicIndex))
                     {
                         if ((magicIndex <= availibleMagics.Count) && (magicIndex > 0))

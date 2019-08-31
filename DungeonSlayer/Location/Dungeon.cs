@@ -2,6 +2,9 @@
 using DungeonSlayer.Units;
 using DungeonSlayer.Units.Enemies;
 using DungeonSlayer.Units.NPC;
+using DungeonSlayer.Units.Players.Inventory;
+using DungeonSlayer.Units.Players.Perks;
+using System;
 using System.Collections.Generic;
 
 namespace DungeonSlayer.Location
@@ -92,11 +95,19 @@ namespace DungeonSlayer.Location
             units.Add(portal);
         }
 
-        public void AddSkelet(int index)
+        public void AddEnemyes()
         {
-            Skelet skelet = new Skelet();
-            skelet.SetInRoom(index);
-            enemyes.Add(skelet);
+            for (int i = 0; i < Game.world.dungeon.rooms.Count; ++i)
+            {
+                enemyCount = DungeonGenerator.random.Next(8, 16);
+                for (int j = 0; j < enemyCount; ++j)
+                {
+                    Enemy enemy = new Enemy(EnemyesList.GetEnemyByDungeonLevel());
+                    enemy.SetInRoom(i);
+                    enemy.Draw();
+                    enemyes.Add(enemy);
+                }
+            }
         }
 
         public void Generate()
@@ -106,12 +117,15 @@ namespace DungeonSlayer.Location
             Game.world.Draw();
             AddPortal(rooms.Count - 1, EPortalStatus.HUB);
             DungeonGenerator.AddBridges(ref rooms, ref bridges);
-            for (int i = 0; i < enemyCount; ++i)
+            AddEnemyes();
+            if (Game.currentDungeonLevel >= 20)
             {
-                AddSkelet(i);
-                enemyes[i].Draw();
+                Enemy enemy = new Enemy(EnemyesList.diablo);
+                enemy.SetInRoom(Game.world.dungeon.rooms.Count - 1);
+                enemy.Draw();
+                enemyes.Add(enemy);
             }
-            int chestCount = DungeonGenerator.random.Next(1, 5);
+            int chestCount = DungeonGenerator.random.Next(1, 5) + (Game.player.perksSystem.CheckPerk(PerksList.givesMoreChestPerk) ? 2 : 0);
             for (int i = 0; i < chestCount; ++i)
             {
                 Chest chest = new Chest();
@@ -144,17 +158,20 @@ namespace DungeonSlayer.Location
             {
                 DungeonGenerator.MakeHub(ref rooms);
                 Game.world.Draw();
-                AddPortal(rooms.Count - 1, EPortalStatus.NEXT_DUNGEON);
+                //AddPortal(rooms.Count - 1, EPortalStatus.NEXT_DUNGEON);
+                Portal portal = new Portal(EPortalStatus.NEXT_DUNGEON);
+                portal.SetPosition(12, 45);
+                units.Add(portal);
                 Game.world.Draw();
                 DungeonGenerator.AddBridges(ref rooms, ref bridges, false);
-                for (int i = 0; i < 10; ++i)
+                for (int i = 0; i < 5; ++i)
                 {
                     Human human = new Human();
                     human.SetInRoom(DungeonGenerator.random.Next(0, 2));
                     human.Draw();
                     units.Add(human);
                 }
-                for (int i = 0; i < 5; ++i)
+                for (int i = 0; i < 3; ++i)
                 {
                     Guardian guardian = new Guardian();
                     guardian.SetInRoom(rooms.Count - 1);
@@ -162,14 +179,16 @@ namespace DungeonSlayer.Location
                     units.Add(guardian);
                 }
                 Informant informant = new Informant();
-                informant.SetInRoom(0);
+                //informant.SetInRoom(0);
+                informant.SetPosition(11, 8);
                 units.Add(informant);
 
-                ETraderType[] types = { ETraderType.ARMOR, ETraderType.BOTTLE, ETraderType.HELMET, ETraderType.WEAPON };
+                EItemType[] types = { EItemType.ARMOR, EItemType.ITEM, EItemType.HELMET, EItemType.WEAPON };
                 for (int i = 0; i < types.Length; ++i)
                 {
                     Trader trader = new Trader(types[i]);
-                    trader.SetInRoom(DungeonGenerator.random.Next(0, 2));
+                    //trader.SetInRoom(DungeonGenerator.random.Next(0, 2));
+                    trader.SetPosition(8, 5 + 4 * i);
                     trader.Draw();
                     units.Add(trader);
                 }

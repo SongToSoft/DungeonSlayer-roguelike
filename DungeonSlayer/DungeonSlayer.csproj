@@ -59,6 +59,7 @@
     <Compile Include="Location\World.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Units\Chest.cs" />
+    <Compile Include="Units\Enemies\EnemyesList.cs" />
     <Compile Include="Units\NPC\Guardian.cs" />
     <Compile Include="Units\NPC\Human.cs" />
     <Compile Include="Units\NPC\Informant.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="Units\Players\Inventory\PlayerInventory.cs" />
     <Compile Include="StatusLine.cs" />
     <Compile Include="Units\Enemies\Enemy.cs" />
-    <Compile Include="Units\Enemies\Skelet.cs" />
     <Compile Include="Units\Players\Inventory\Weapons\Weapon.cs" />
     <Compile Include="Units\Players\Inventory\ItemsList.cs" />
     <Compile Include="Units\Players\Magics\Magic.cs" />

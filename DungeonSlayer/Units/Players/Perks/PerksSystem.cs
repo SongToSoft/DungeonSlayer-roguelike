@@ -5,7 +5,7 @@ namespace DungeonSlayer.Units.Players.Perks
 {
     class PerksSystem
     {
-        private List<Perk> perks;
+        public List<Perk> perks;
         public int perksPoint = 0;
 
         public PerksSystem()
@@ -28,16 +28,20 @@ namespace DungeonSlayer.Units.Players.Perks
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Game.consoleBuffer = new char[Game.consoleHeight, Game.consoleWidth];
-            for (int i = 0; i < perks.Count; ++i)
-            {
-                Console.WriteLine(" " + perks[i].value + ": " + perks[i].info);
-            }
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Blue;
             if (perks.Count == 0)
             {
                 Console.WriteLine(" You have no one perk");
             }
+            else
+            {
+                Console.WriteLine(" You have perks:");
+                for (int i = 0; i < perks.Count; ++i)
+                {
+                    Console.WriteLine(" " + perks[i].value + ": " + perks[i].info);
+                }
+            }
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(" [C] - Close shop " + ((perksPoint > 0) ? "[P] - pick new Perk" : "                   "));
             bool commandChose = true;
             while (commandChose)
@@ -48,7 +52,7 @@ namespace DungeonSlayer.Units.Players.Perks
                     commandChose = false;
                     return;
                 }
-                if ((command == 'p') || (command == 'P'))
+                if (((command == 'p') || (command == 'P')) && (perksPoint > 0))
                 {
                     commandChose = false;
                     int count = 1;
@@ -61,10 +65,10 @@ namespace DungeonSlayer.Units.Players.Perks
                         }                       
                     }
                     bool perkChose = true;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(" ");
                     while (perkChose)
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write(" ");
                         string choseCommand = Console.ReadLine();
                         if (Int32.TryParse(choseCommand, out int perkIndex))
                         {
@@ -91,6 +95,22 @@ namespace DungeonSlayer.Units.Players.Perks
                                         if (PerksList.perks[i].value == EPerkValue.WEAPON_PERK)
                                         {
                                             Game.player.attack += 2;
+                                        }
+                                        if (PerksList.perks[i].value == EPerkValue.HP_PERK)
+                                        {
+                                            Game.player.maxHelth += 20;
+                                        }
+                                        if (PerksList.perks[i].value == EPerkValue.MANA_PERK)
+                                        {
+                                            Game.player.maxMana += 20;
+                                        }
+                                        if (PerksList.perks[i].value == EPerkValue.BLOCKING_PERK)
+                                        {
+                                            Game.player.blocking += 3;
+                                        }
+                                        if (PerksList.perks[i].value == EPerkValue.SPELL_POWER_PERK)
+                                        {
+                                            Game.player.specification.spellPower += 2;
                                         }
                                         break;
                                     }

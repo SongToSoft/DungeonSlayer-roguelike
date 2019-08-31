@@ -2,6 +2,7 @@
 using DungeonSlayer.Location;
 using DungeonSlayer.Units.Players;
 using System;
+using System.Threading;
 
 namespace DungeonSlayer
 {
@@ -32,19 +33,26 @@ namespace DungeonSlayer
             if (player.isMove)
             {
                 world.Update();
-            }
+            };
             Update();
         }
 
-        static public void EndGame()
+        static public void EndGame(bool diabloIsDead = false)
         {
             if (player.isDead)
             {
-                //TODO: Del player save
-                StatusLine.AddLine("Player is dead, your character is deleted");
+                StatusLine.AddLine(" Player is dead, your character is deleted");
                 SaveSystem.DelCharacter();
                 Console.ReadKey();
             }
+            if (diabloIsDead)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine();
+                Console.WriteLine(" Thank you for game!");
+                Console.ReadKey();
+            }
+            Console.ReadKey();
             Environment.Exit(0);
         }
 
@@ -81,7 +89,7 @@ namespace DungeonSlayer
             Console.WriteLine(" [W] - Up [D] - Right [S] - Down [A] - Left [I] - Inventory [P] - Perks [M] - Magic List [Q] - Use Magic" +
                              ((player.specification.levelPoint != 0) ? " [U] - Level Up" : "              "));
 
-            if (StatusLine.status != "")
+            if (StatusLine.statuses.Count != 0)
             {
                 StatusLine.Draw();
             }

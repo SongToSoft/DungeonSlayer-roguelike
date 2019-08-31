@@ -25,6 +25,7 @@ namespace DungeonSlayer.Architecture
             height = _height;
             width = _width;
             places = new char[height, width];
+            SetColors();
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
@@ -32,16 +33,19 @@ namespace DungeonSlayer.Architecture
                     if (i == 0 || (i == (height - 1)))
                     {
                         places[i, j] = '#';
+                        colors[i, j] = ConsoleColor.DarkYellow;
                     }
                     else
                     {
                         if (j == 0 || (j == (width - 1)))
                         {
                             places[i, j] = '#';
+                            colors[i, j] = ConsoleColor.DarkYellow;
                         }
                         else
                         {
                             places[i, j] = '.';
+                            colors[i, j] = ConsoleColor.DarkGray;
                         }
                     }
                 }
@@ -71,7 +75,7 @@ namespace DungeonSlayer.Architecture
                     if (((position.X + i) < Game.world.height) && ((position.Y + j) < Game.world.width))
                     {
                         Game.world.map[(int)(position.X + i), (int)(position.Y + j)] = places[i, j];
-                        Game.world.colors[(int)(position.X + i), (int)(position.Y + j)] = ConsoleColor.White;
+                        Game.world.colors[(int)(position.X + i), (int)(position.Y + j)] = colors[i, j];
                     }
                 }
             }

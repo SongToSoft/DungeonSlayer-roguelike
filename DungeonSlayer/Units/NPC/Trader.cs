@@ -5,13 +5,6 @@ using System.Collections.Generic;
 
 namespace DungeonSlayer.Units.NPC
 {
-    enum ETraderType
-    {
-        ARMOR,
-        HELMET,
-        WEAPON,
-        BOTTLE
-    }
 
     enum ETraderState
     {
@@ -22,40 +15,19 @@ namespace DungeonSlayer.Units.NPC
     class Trader : Unit
     {
         public List<Item> items;
-        public ETraderType type;
-        public Trader(ETraderType _type)
+        public EItemType itemType;
+        public Trader(EItemType _type)
         {
             form = 'T';
             color = ConsoleColor.Yellow;
             items = new List<Item>();
-            type = _type;
-            switch (type)
+            itemType = _type;
+            for (int i = 0; i < ItemsList.items.Count; ++i)
             {
-                case ETraderType.ARMOR:
-                    items.Add(ItemsList.ironArmor);
-                    items.Add(ItemsList.leatherArmor);
-                    items.Add(ItemsList.stealArmor);
-                    items.Add(ItemsList.elvenArmor);
-                    items.Add(ItemsList.dwarfsArmor);
-                    break;
-                case ETraderType.HELMET:
-                    items.Add(ItemsList.ironHelmet);
-                    items.Add(ItemsList.leatherHelmet);
-                    items.Add(ItemsList.stealHelmet);
-                    items.Add(ItemsList.elvenHelmet);
-                    items.Add(ItemsList.dwarfsHelmet);
-                    break;
-                case ETraderType.WEAPON:
-                    items.Add(ItemsList.ironAxe);
-                    items.Add(ItemsList.ironSpear);
-                    items.Add(ItemsList.ironDagger);
-                    items.Add(ItemsList.ironSword);
-                    items.Add(ItemsList.woodStaff);
-                    break;
-                case ETraderType.BOTTLE:
-                    items.Add(ItemsList.helthBottle);
-                    items.Add(ItemsList.manaBottle);
-                    break;
+                if ((ItemsList.items[i].itemType == itemType) && (ItemsList.items[i].level > 0))
+                {
+                    items.Add(ItemsList.items[i]);
+                }
             }
         }
 

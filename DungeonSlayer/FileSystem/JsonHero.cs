@@ -3,6 +3,8 @@ using DungeonSlayer.Units.Players.Inventory;
 using DungeonSlayer.Units.Players.Inventory.Armores;
 using DungeonSlayer.Units.Players.Inventory.Helmets;
 using DungeonSlayer.Units.Players.Inventory.Weapons;
+using DungeonSlayer.Units.Players.Magics;
+using DungeonSlayer.Units.Players.Perks;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -14,7 +16,7 @@ namespace DungeonSlayer.FileSystem
         [DataMember]
         private int dungeonLevel, attack, evasion, blocking, accuracy, criticalChance, spellPower, levelPoint,
                     gold, level, helth, maxHelth, mana, maxMana, currentExp, maxExp, strength, agility, intelligence,
-                    strengthMultiply, agilityMultiply, intelligenceMultiply, itemsCount;
+                    strengthMultiply, agilityMultiply, intelligenceMultiply, itemsCount, perksCount, magicCount;
         [DataMember]
         private string name, activeHelmet, activeArmor, activeWeapon;
         [DataMember]
@@ -25,6 +27,12 @@ namespace DungeonSlayer.FileSystem
         private ERaсe race;
         [DataMember]
         private List<string> itemsName;
+        [DataMember]
+        private List<EPerkValue> perksValue;
+        [DataMember]
+        private List<string> magicsName;
+        [DataMember]
+        private string activeMagicsName;
 
         public JsonHero()
         {
@@ -65,6 +73,22 @@ namespace DungeonSlayer.FileSystem
             {
                 itemsName.Add(Game.player.inventory.items[i].name);
             }
+
+            perksCount = Game.player.perksSystem.perks.Count;
+            perksValue = new List<EPerkValue>();
+            for (int i = 0; i < perksCount; ++i)
+            {
+                perksValue.Add(Game.player.perksSystem.perks[i].value);
+            }
+
+            magicCount = Game.player.magicSystem.availibleMagics.Count;
+            magicsName = new List<string>();
+            for (int i = 0; i < magicCount; ++i)
+            {
+                magicsName.Add(Game.player.magicSystem.availibleMagics[i].name);
+            }
+
+            activeMagicsName = Game.player.magicSystem.activeMagic.name;
         }
 
         public void SetValuesInPlayer()
@@ -97,6 +121,7 @@ namespace DungeonSlayer.FileSystem
             Game.player.specification.strengthMultiply = strengthMultiply;
             Game.player.specification.agilityMultiply = agilityMultiply;
             Game.player.specification.intelligenceMultiply = intelligenceMultiply;
+
             Game.player.inventory.activeHelmet = (Helmet)ItemsList.GetItemByName(activeHelmet);
             Game.player.inventory.activeArmor = (Armor)ItemsList.GetItemByName(activeArmor);
             Game.player.inventory.activeWeapon = (Weapon)ItemsList.GetItemByName(activeWeapon);
@@ -104,6 +129,17 @@ namespace DungeonSlayer.FileSystem
             {
                 Game.player.inventory.items.Add(ItemsList.GetItemByName(itemsName[i]));
             }
+   
+            for (int i = 0; i < perksCount; ++i)
+            {
+                Game.player.perksSystem.AddPerk(PerksList.GetPerkByPerkValue(perksValue[i]));
+            }
+
+            for (int i = 0; i < magicCount; ++i)
+            {
+                Game.player.magicSystem.AddSpell(MagicList.GetMagicByName(magicsName[i]));
+            }
+            Game.player.magicSystem.activeMagic = MagicList.GetMagicByName(activeMagicsName);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace DungeonSlayer.Architecture
+﻿using System;
+
+namespace DungeonSlayer.Architecture
 {
     class Wall : ArchitectureObject
     {
@@ -20,11 +22,13 @@
                 height = 4;
             }
             places = new char[height, width];
+            SetColors();
             for (int i = 0; i < height; ++i)
             {
                 for (int j = 0; j < width; ++j)
                 {
                     places[i, j] = '#';
+                    colors[i, j] = ConsoleColor.Cyan;
                 }
             }
         }

@@ -19,6 +19,11 @@ namespace DungeonSlayer.Units
             return position;
         }
 
+        public void SetPosition(int x, int y)
+        {
+            position.X = x;
+            position.Y = y;
+        }
         public void SetInRoom(int roomId)
         {
             bool checkPosition;

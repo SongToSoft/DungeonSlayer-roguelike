@@ -19,16 +19,19 @@
 
         public void Cast()
         {
-            if (Game.player.mana >= cost)
+            if (this.name != "Empty magic")
             {
-                Game.player.mana -= cost;
-                castDelegate();
-                StatusLine.AddLine("You use magic: " + name + " for " + cost + " mana");
-            }
-            else
-            {
-                StatusLine.AddLine("You dont have enough mana for: " + name);
-            }
+                if (Game.player.mana >= cost)
+                {
+                    Game.player.mana -= cost;
+                    castDelegate();
+                    StatusLine.AddLine(" You use magic: " + name + " for " + cost + " mana");
+                }
+                else
+                {
+                    StatusLine.AddLine(" You dont have enough mana for: " + name);
+                }
+            }            
         }
     }
 }

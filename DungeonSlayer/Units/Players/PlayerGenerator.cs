@@ -9,7 +9,7 @@ namespace DungeonSlayer.Units.Players
         {
             Console.Clear();
             while (!SetName(ref player)) {}
-            SetSex(ref player);
+            SetGender(ref player);
             SetRace(ref player);
             SetClass(ref player);
             Console.WriteLine(" Enter any key");
@@ -23,6 +23,7 @@ namespace DungeonSlayer.Units.Players
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(" Enter hero name");
+            Console.Write(" ");
             Console.ForegroundColor = ConsoleColor.Yellow;
             string command = Console.ReadLine();
             if ((command.Length == 0) || (command.Length > 15))
@@ -46,14 +47,14 @@ namespace DungeonSlayer.Units.Players
             }
         }
 
-        static private void SetSex(ref Player player)
+        static private void SetGender(ref Player player)
         {
             bool isSet = true;
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(" Chose gender:");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(" [M] - male: +1 strength");
-            Console.WriteLine(" [F] - female: +1 agility");
+            Console.WriteLine(" [M] - Male: +1 Strength");
+            Console.WriteLine(" [F] - Female: +1 Agility");
 
             while (isSet)
             {
@@ -65,20 +66,19 @@ namespace DungeonSlayer.Units.Players
                     case 'M':
                         player.specification.SetGender(EGender.MALE);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(" You chose male");
+                        Console.WriteLine(" You chose Male");
                         break;
                     case 'f':
                     case 'F':
                         player.specification.SetGender(EGender.FEMALE);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(" You chose female");
+                        Console.WriteLine(" You chose Female");
                         break;
                     default:
                         isSet = true;
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(" Incorrect chose");
                         break;
-
                 }
             }
         }
@@ -89,9 +89,12 @@ namespace DungeonSlayer.Units.Players
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(" Chose your class:");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(" [K] - Knight: +1 strength, +1 agility, Iron set");
-            Console.WriteLine(" [B] - Barbarian: +2 strength, Leather armor, Iron Mace");
-            Console.WriteLine(" [P] - Pathfinder: +2 agility, Leather set, iron dagger");
+            Console.WriteLine(" [K] - Knight: +1 Strength. +1 Agility. Iron set");
+            Console.WriteLine(" [B] - Barbarian: +2 Strength. Leather armor. Iron Mace");
+            Console.WriteLine(" [P] - Pathfinder: +2 Agility. Leather set. Iron dagger");
+            Console.WriteLine(" [T] - Thief: +3 Agility. Iron dagger. Perk for get a lot of money and exp");
+            Console.WriteLine(" [M] - Mag: +2 Intelligence. +10 max Mana. Magic student set. FireBlast spell");
+            Console.WriteLine(" [W] - Warlock: +1 Intelligence. +1 Strength. +20 max Mana. Magic student set. Buff Blocking spell");
             Console.WriteLine(" [N] - Nameless");
             while (isSet)
             {
@@ -103,19 +106,37 @@ namespace DungeonSlayer.Units.Players
                     case 'K':
                         player.specification.SetSpecialization(EClass.KNIGHT);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(" You chose Knight");
+                        Console.WriteLine(" You chose Knight class");
                         break;
                     case 'b':
                     case 'B':
                         player.specification.SetSpecialization(EClass.BARBARIAN);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(" You chose Barbarian");
+                        Console.WriteLine(" You chose Barbarian class");
                         break;
                     case 'p':
                     case 'P':
                         player.specification.SetSpecialization(EClass.PATHFINDER);
                         Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine(" You chose Pathfinder");
+                        Console.WriteLine(" You chose Pathfinder class");
+                        break;
+                    case 't':
+                    case 'T':
+                        player.specification.SetSpecialization(EClass.THIEF);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(" You chose Thief class");
+                        break;
+                    case 'm':
+                    case 'M':
+                        player.specification.SetSpecialization(EClass.MAG);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(" You choose Mag class");
+                        break;
+                    case 'w':
+                    case 'W':
+                        player.specification.SetSpecialization(EClass.WARLOCK);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(" You choose Warlock class");
                         break;
                     case 'n':
                     case 'N':
@@ -139,10 +160,13 @@ namespace DungeonSlayer.Units.Players
             Console.WriteLine(" Chose your race:");
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(" [H] - Human: +20 max HP and MANA");
-            Console.WriteLine(" [E] - ELF: +1 agility and Intelligence, +1 attack with dagger");
-            Console.WriteLine(" [D] - Dvarf: +2 strength, +1 attack with Mace and Axe");
+            Console.WriteLine(" [E] - ELF: +2 agility and Intelligence, +1 attack with dagger");
+            Console.WriteLine(" [D] - Dvarf: +3 strength, +1 attack with Mace and Axe");
             Console.WriteLine(" [O] - Ork: +5 strength, +1 attack with Mace, +5 blocking damage, You always will have 0 evasion");
             Console.WriteLine(" [G] - Goblin: +3 agility, 20 max HP, +3 evasion, Heal Spell");
+            Console.WriteLine(" [T] - Troll: +10 critical chance, +1 attack with spear, double attack, -15 max HP, -15 max Mana");
+            Console.WriteLine(" [M] - Minotaur: +10 strength, Magic spell aoe stun, can't wear helmet and armor");
+            Console.WriteLine(" [U] - Undead: -20 max HP, Heal 20% hp after kill enemyes");
             while (isSet)
             {
                 char command = Console.ReadKey(true).KeyChar;
@@ -178,6 +202,24 @@ namespace DungeonSlayer.Units.Players
                         player.specification.SetRace(ERaсe.GOBLIN);
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine(" You chose Goblin");
+                        break;
+                    case 't':
+                    case 'T':
+                        player.specification.SetRace(ERaсe.TROLL);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(" You chose Troll");
+                        break;
+                    case 'm':
+                    case 'M':
+                        player.specification.SetRace(ERaсe.MINOTAUR);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(" You chose Minotaur");
+                        break;
+                    case 'u':
+                    case 'U':
+                        player.specification.SetRace(ERaсe.UNDEAD);
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine(" You chose Undead");
                         break;
                     default:
                         isSet = true;

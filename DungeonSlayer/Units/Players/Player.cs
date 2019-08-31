@@ -99,75 +99,84 @@ namespace DungeonSlayer.Units.Players
         }
         public void Update()
         {
-            isMove = false;
-            Console.SetCursorPosition(1, 1);
-            StatusLine.status = "";
-            char command = Console.ReadKey(true).KeyChar;
-            switch (command)
+            if (inStun)
             {
-                case 'w':
-                case 'W':
-                    isMove = true;
-                    CheckChest((int)position.X - 1, (int)position.Y);
-                    CheckTrader((int)position.X - 1, (int)position.Y);
-                    CheckInformant((int)position.X - 1, (int)position.Y);
-                    CheckPortal((int)position.X - 1, (int)position.Y);
-                    CheckAtack((int)position.X - 1, (int)position.Y);
-                    MoveUp();
-                    break;
-                case 'd':
-                case 'D':
-                    isMove = true;
-                    CheckChest((int)position.X, (int)position.Y + 1);
-                    CheckTrader((int)position.X, (int)position.Y + 1);
-                    CheckInformant((int)position.X, (int)position.Y + 1);
-                    CheckPortal((int)position.X, (int)position.Y + 1);
-                    CheckAtack((int)position.X, (int)position.Y + 1);
-                    MoveRight();
-                    break;
-                case 's':
-                case 'S':
-                    isMove = true;
-                    CheckChest((int)position.X + 1, (int)position.Y);
-                    CheckTrader((int)position.X + 1, (int)position.Y);
-                    CheckInformant((int)position.X + 1, (int)position.Y);
-                    CheckPortal((int)position.X + 1, (int)position.Y);
-                    CheckAtack((int)position.X + 1, (int)position.Y);
-                    MoveDown();
-                    break;
-                case 'a':
-                case 'A':
-                    isMove = true;
-                    CheckChest((int)position.X, (int)position.Y - 1);
-                    CheckTrader((int)position.X, (int)position.Y - 1);
-                    CheckInformant((int)position.X, (int)position.Y - 1);
-                    CheckPortal((int)position.X, (int)position.Y - 1);
-                    CheckAtack((int)position.X, (int)position.Y - 1);
-                    MoveLeft();
-                    break;
-                case 'i':
-                case 'I':
-                    inventory.OpenInventory();
-                    break;
-                case 'u':
-                case 'U':
-                    specification.LevelUp();
-                    break;
-                case 'p':
-                case 'P':
-                    perksSystem.ShowPerks();
-                    break;
-                case 'q':
-                case 'Q':
-                    if (magicSystem.activeMagic != null)
-                    {
-                        magicSystem.activeMagic.Cast();
-                    }
-                    break;
-                case 'm':
-                case 'M':
-                    magicSystem.ShowMagics();
-                    break;
+                StatusLine.AddLine(" " + name + " in stun");
+                inStun = false;
+                isMove = true;
+            }
+            else
+            {
+                isMove = false;
+                Console.SetCursorPosition(1, 1);
+
+                char command = Console.ReadKey(true).KeyChar;
+                switch (command)
+                {
+                    case 'w':
+                    case 'W':
+                        isMove = true;
+                        CheckChest((int)position.X - 1, (int)position.Y);
+                        CheckTrader((int)position.X - 1, (int)position.Y);
+                        CheckInformant((int)position.X - 1, (int)position.Y);
+                        CheckPortal((int)position.X - 1, (int)position.Y);
+                        CheckAtack((int)position.X - 1, (int)position.Y);
+                        MoveUp();
+                        break;
+                    case 'd':
+                    case 'D':
+                        isMove = true;
+                        CheckChest((int)position.X, (int)position.Y + 1);
+                        CheckTrader((int)position.X, (int)position.Y + 1);
+                        CheckInformant((int)position.X, (int)position.Y + 1);
+                        CheckPortal((int)position.X, (int)position.Y + 1);
+                        CheckAtack((int)position.X, (int)position.Y + 1);
+                        MoveRight();
+                        break;
+                    case 's':
+                    case 'S':
+                        isMove = true;
+                        CheckChest((int)position.X + 1, (int)position.Y);
+                        CheckTrader((int)position.X + 1, (int)position.Y);
+                        CheckInformant((int)position.X + 1, (int)position.Y);
+                        CheckPortal((int)position.X + 1, (int)position.Y);
+                        CheckAtack((int)position.X + 1, (int)position.Y);
+                        MoveDown();
+                        break;
+                    case 'a':
+                    case 'A':
+                        isMove = true;
+                        CheckChest((int)position.X, (int)position.Y - 1);
+                        CheckTrader((int)position.X, (int)position.Y - 1);
+                        CheckInformant((int)position.X, (int)position.Y - 1);
+                        CheckPortal((int)position.X, (int)position.Y - 1);
+                        CheckAtack((int)position.X, (int)position.Y - 1);
+                        MoveLeft();
+                        break;
+                    case 'i':
+                    case 'I':
+                        inventory.OpenInventory();
+                        break;
+                    case 'u':
+                    case 'U':
+                        specification.LevelUp();
+                        break;
+                    case 'p':
+                    case 'P':
+                        perksSystem.ShowPerks();
+                        break;
+                    case 'q':
+                    case 'Q':
+                        if (magicSystem.activeMagic != null)
+                        {
+                            magicSystem.activeMagic.Cast();
+                        }
+                        break;
+                    case 'm':
+                    case 'M':
+                        magicSystem.ShowMagics();
+                        break;
+                }
             }
             Console.SetCursorPosition(1, 1);
             Console.Write(" ");
@@ -211,6 +220,21 @@ namespace DungeonSlayer.Units.Players
                                 Game.player.evasion -= 5;
                                 Game.player.magicSystem.isBuffEvasion = false;
                             }
+                            if (Game.player.magicSystem.isBuffBlocking)
+                            {
+                                Game.player.magicSystem.isBuffBlocking = false;
+                                Game.player.blocking -= Game.player.specification.spellPower;
+                            }
+                            if (Game.player.perksSystem.CheckPerk(PerksList.allRecoverHPPerk))
+                            {
+                                Game.player.helth = Game.player.maxHelth;
+                            }
+                            if (Game.player.perksSystem.CheckPerk(PerksList.allRecoverManaPerk))
+                            {
+                                Game.player.maxMana = Game.player.mana;
+                            }
+                            Console.Clear();
+                            Game.consoleBuffer = new char[Game.consoleHeight, Game.consoleWidth];
                             SaveSystem.DelCharacter();
                             SaveSystem.SaveCharacter();
                             Game.world.GoToHub();
@@ -228,7 +252,7 @@ namespace DungeonSlayer.Units.Players
         {
             if ((i < Game.world.height) && (j < Game.world.width))
             {
-                if (Game.world.map[i, j] == 'i')
+                if (Game.world.map[i, j] == 'I')
                 {
                     StatusLine.ShowInfo();
                 }

@@ -14,12 +14,16 @@ namespace DungeonSlayer.Units.Players.Inventory.Helmets
             increasingStats = _increasingStats;
             cost = _cost;
             level = _level;
+            itemType = EItemType.HELMET;
         }
 
         public override void Use()
         {
-            Game.player.inventory.AddItem(Game.player.inventory.activeHelmet);
-            Game.player.inventory.SetActiveHelmet(this);
+            if (Game.player.specification.race != ERaсe.MINOTAUR)
+            {
+                Game.player.inventory.AddItem(Game.player.inventory.activeHelmet);
+                Game.player.inventory.SetActiveHelmet(this);
+            }
         }
 
         public override string GetInfo()

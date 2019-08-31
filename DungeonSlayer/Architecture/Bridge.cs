@@ -1,4 +1,6 @@
-﻿namespace DungeonSlayer.Architecture
+﻿using System;
+
+namespace DungeonSlayer.Architecture
 {
     class Bridge : ArchitectureObject
     {
@@ -11,6 +13,7 @@
                 height = 3;
                 width = (int)(roomSecond.GetPosition().Y - position.Y + 5);
                 places = new char[height, width];
+                SetColors();
                 for (int i = 0; i < height; ++i)
                 {
                     for (int j = 0; j < width; ++j)
@@ -21,6 +24,7 @@
                 for (int i = 0; i < width; ++i)
                 {
                     places[1, i] = '.';
+                    colors[1, i] = ConsoleColor.DarkGray;
                 }
                 for (int i = 0; i < height; ++i)
                 {
@@ -29,6 +33,7 @@
                         if (places[i, j] != '.')
                         {
                             places[i, j] = '#';
+                            colors[i, j] = ConsoleColor.DarkYellow;
                         }
                     }
                 }
@@ -40,6 +45,7 @@
                 width = 3;
                 height = (int)(roomSecond.GetPosition().X - position.X + 5);
                 places = new char[height, width];
+                SetColors();
                 for (int i = 0; i < height; ++i)
                 {
                     for (int j = 0; j < width; ++j)
@@ -50,6 +56,7 @@
                 for (int i = 0; i < height; ++i)
                 {
                     places[i, 1] = '.';
+                    //colors[1, i] = ConsoleColor.DarkGray;
                 }
                 for (int i = 0; i < height; ++i)
                 {
@@ -58,6 +65,7 @@
                         if (places[i, j] != '.')
                         {
                             places[i, j] = '#';
+                            colors[i, j] = ConsoleColor.DarkYellow;
                         }
                     }
                 }

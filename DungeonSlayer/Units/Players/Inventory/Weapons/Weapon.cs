@@ -32,6 +32,7 @@ namespace DungeonSlayer.Units.Players.Inventory.Weapons
             criticalChance = _criticalChance;
             cost = _cost;
             level = _level;
+            itemType = EItemType.WEAPON;
         }
 
         public override void Use()
