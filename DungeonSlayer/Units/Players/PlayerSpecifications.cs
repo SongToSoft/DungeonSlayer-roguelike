@@ -210,6 +210,7 @@ namespace DungeonSlayer.Units.Players
                 ++agilityMultiply;
                 if (agilityMultiply == agilityMultiplyMax)
                 {
+                    agilityMultiply = 0;
                     if (race != ERaсe.ORC)
                     {
                         ++Game.player.evasion;
@@ -254,7 +255,7 @@ namespace DungeonSlayer.Units.Players
                 Console.WriteLine(" Your have level points: " + levelPoint);
                 Console.WriteLine(" Chose stat for UP:");
                 Console.WriteLine(" [1] - Strength: +3 for Max Helth, Up attack: " + strengthMultiply + " / " + strengthMultiplyMax);
-                Console.WriteLine(" [2] - Agility: Up critical chance" + ((race != ERaсe.ORC) ? ": " : "and critical chance: ") + agilityMultiply + " / " + agilityMultiplyMax);
+                Console.WriteLine(" [2] - Agility: Up critical chance" + ((race == ERaсe.ORC) ? ": " : "and evasion: ") + agilityMultiply + " / " + agilityMultiplyMax);
                 Console.WriteLine(" [3] - Intelligence: +4 for Max Mana, Up spell power: " +
                                    (intelligenceMultiply % 3) + " / " + intelligenceMultiplyMax +
                                    ", Get new Spell: " + intelligenceMultiply + " / " + (intelligenceMultiplyMax * 2));

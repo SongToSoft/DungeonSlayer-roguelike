@@ -18,8 +18,8 @@ namespace DungeonSlayer.Units.Enemies
             form = _form;
             helth = _helth;
             attack = _attack;
-            expectedExp = DungeonGenerator.random.Next(_expectedExp, _expectedExp + 3);
-            expectedGold = DungeonGenerator.random.Next(_expectedGold, _expectedGold + 3);
+            expectedExp = _expectedExp;
+            expectedGold = _expectedGold;
             accuracy = _accuracy;
             criticalChance = _criticalChance;
             level = _level;
@@ -32,8 +32,8 @@ namespace DungeonSlayer.Units.Enemies
             form = _enemy.form;
             helth = _enemy.helth;
             attack = _enemy.attack;
-            expectedExp = DungeonGenerator.random.Next(_enemy.expectedExp, _enemy.expectedExp + 3);
-            expectedGold = DungeonGenerator.random.Next(_enemy.expectedGold, _enemy.expectedGold + 3);
+            expectedExp = _enemy.expectedExp;
+            expectedGold = _enemy.expectedGold;
             accuracy = _enemy.accuracy;
             criticalChance = _enemy.criticalChance;
             level = _enemy.level;

@@ -99,7 +99,7 @@ namespace DungeonSlayer.Location
         {
             for (int i = 0; i < Game.world.dungeon.rooms.Count; ++i)
             {
-                enemyCount = DungeonGenerator.random.Next(8, 16);
+                enemyCount = DungeonGenerator.random.Next(8, 13);
                 for (int j = 0; j < enemyCount; ++j)
                 {
                     Enemy enemy = new Enemy(EnemyesList.GetEnemyByDungeonLevel());
@@ -125,7 +125,7 @@ namespace DungeonSlayer.Location
                 enemy.Draw();
                 enemyes.Add(enemy);
             }
-            int chestCount = DungeonGenerator.random.Next(1, 5) + (Game.player.perksSystem.CheckPerk(PerksList.givesMoreChestPerk) ? 2 : 0);
+            int chestCount = DungeonGenerator.random.Next(3, 6) + (Game.player.perksSystem.CheckPerk(PerksList.givesMoreChestPerk) ? 2 : 0);
             for (int i = 0; i < chestCount; ++i)
             {
                 Chest chest = new Chest();
