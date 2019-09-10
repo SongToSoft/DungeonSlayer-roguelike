@@ -1,0 +1,6 @@
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\bin\Release\DungeonSlayer.exe.config
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\bin\Release\DungeonSlayer.exe
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\bin\Release\DungeonSlayer.pdb
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Release\DungeonSlayer.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Release\DungeonSlayer.exe
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Release\DungeonSlayer.pdb

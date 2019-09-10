@@ -63,6 +63,7 @@ namespace DungeonSlayer
                         if (count == 1)
                         {
                             Console.WriteLine(" No one saved hero");
+                            Console.ReadKey(true);
                             break;
                         }
                         bool choseHero = true;

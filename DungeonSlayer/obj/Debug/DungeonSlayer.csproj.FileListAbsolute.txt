@@ -12,3 +12,10 @@ C:\Users\Dmitry\Documents\GitHub\DungeonSlayer\DungeonSlayer\obj\Debug\DungeonSl
 C:\Users\Dmitry\Documents\GitHub\DungeonSlayer\DungeonSlayer\obj\Debug\DungeonSlayer.csproj.CoreCompileInputs.cache
 C:\Users\Dmitry\Documents\GitHub\DungeonSlayer\DungeonSlayer\obj\Debug\DungeonSlayer.exe
 C:\Users\Dmitry\Documents\GitHub\DungeonSlayer\DungeonSlayer\obj\Debug\DungeonSlayer.pdb
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\bin\Debug\DungeonSlayer.exe.config
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\bin\Debug\DungeonSlayer.exe
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\bin\Debug\DungeonSlayer.pdb
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Debug\DungeonSlayer.csprojAssemblyReference.cache
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Debug\DungeonSlayer.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Debug\DungeonSlayer.exe
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Debug\DungeonSlayer.pdb
