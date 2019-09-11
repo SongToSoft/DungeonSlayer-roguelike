@@ -30,35 +30,36 @@ namespace DungeonSlayer.Units.Players.Inventory
 
         public void SetActiveHelmet(Helmet helmet)
         {
-            Game.player.specification.IncreaseStrength((int)-activeHelmet.increasingStats.X, true);
-            Game.player.specification.IncreaseAgility((int)-activeHelmet.increasingStats.Y, true);
-            Game.player.specification.IncreaseIntelligence((int)-activeHelmet.increasingStats.Z, true);
+            Game.player.maxHelth -= (int)activeHelmet.increasingStats.X;
+            Game.player.evasion -= (int)activeHelmet.increasingStats.Y;
+            Game.player.specification.spellPower -= (int)activeHelmet.increasingStats.Z;
+
             Game.player.blocking -= activeHelmet.blockingValue;
             activeHelmet = helmet;
             Game.player.blocking += activeHelmet.blockingValue;
-            Game.player.specification.IncreaseStrength((int)activeHelmet.increasingStats.X, true);
-            Game.player.specification.IncreaseAgility((int)activeHelmet.increasingStats.Y, true);
-            Game.player.specification.IncreaseIntelligence((int)activeHelmet.increasingStats.Z, true);
+
+            Game.player.maxHelth += (int)activeHelmet.increasingStats.X;
+            Game.player.evasion += (int)activeHelmet.increasingStats.Y;
+            Game.player.specification.spellPower += (int)activeHelmet.increasingStats.Z;
         }
 
         public void SetActiveArmor(Armor armor)
         {
-            Game.player.specification.IncreaseStrength((int)-activeArmor.increasingStats.X, true);
-            Game.player.specification.IncreaseAgility((int)-activeArmor.increasingStats.Y, true);
-            Game.player.specification.IncreaseIntelligence((int)-activeArmor.increasingStats.Z, true);
+            Game.player.maxHelth -= (int)activeArmor.increasingStats.X;
+            Game.player.evasion -= (int)activeArmor.increasingStats.Y;
+            Game.player.specification.spellPower -= (int)activeArmor.increasingStats.Z;
+
             Game.player.blocking -= activeArmor.blockingValue;
             activeArmor = armor;
             Game.player.blocking += activeArmor.blockingValue;
-            Game.player.specification.IncreaseStrength((int)activeArmor.increasingStats.X, true);
-            Game.player.specification.IncreaseAgility((int)activeArmor.increasingStats.Y, true);
-            Game.player.specification.IncreaseIntelligence((int)activeArmor.increasingStats.Z, true);
+
+            Game.player.maxHelth += (int)activeArmor.increasingStats.X;
+            Game.player.evasion += (int)activeArmor.increasingStats.Y;
+            Game.player.specification.spellPower += (int)activeArmor.increasingStats.Z;
         }
 
         public void SetActiveWeapon(Weapon weapon, EPerkValue perk = EPerkValue.EMPTY_PERK)
         {
-            Game.player.specification.IncreaseStrength((int)-activeWeapon.increasingStats.X, true);
-            Game.player.specification.IncreaseAgility((int)-activeWeapon.increasingStats.Y, true);
-            Game.player.specification.IncreaseIntelligence((int)-activeWeapon.increasingStats.Z, true);
             Game.player.accuracy = weapon.accuracy;
             Game.player.criticalChance = weapon.criticalChance;
             if (perk != EPerkValue.DAGGER_PERK)
@@ -132,9 +133,6 @@ namespace DungeonSlayer.Units.Players.Inventory
             {
                 ++Game.player.attack;
             }
-            Game.player.specification.IncreaseStrength((int)activeWeapon.increasingStats.X, true);
-            Game.player.specification.IncreaseAgility((int)activeWeapon.increasingStats.Y, true);
-            Game.player.specification.IncreaseIntelligence((int)activeWeapon.increasingStats.Z, true);
         }
 
         public void OpenInventory()

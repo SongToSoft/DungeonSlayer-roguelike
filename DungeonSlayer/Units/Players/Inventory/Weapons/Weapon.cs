@@ -20,14 +20,12 @@ namespace DungeonSlayer.Units.Players.Inventory.Weapons
         public int accuracy;
         public int criticalChance;
         public EWeaponType type;
-        public Vector3 increasingStats;
 
-        public Weapon(string _name, int _attack, int _accuracy, int _criticalChance, EWeaponType _type, Vector3 _increasingStats, int _cost, int _level)
+        public Weapon(string _name, int _attack, int _accuracy, int _criticalChance, EWeaponType _type, int _cost, int _level)
         {
             name = _name;
             attack = _attack;
             type = _type;
-            increasingStats = _increasingStats;
             accuracy = _accuracy;
             criticalChance = _criticalChance;
             cost = _cost;
@@ -45,10 +43,7 @@ namespace DungeonSlayer.Units.Players.Inventory.Weapons
         {
             return " Type: " + type +
                    ", Attack: " + attack + ", Cost: " + cost +
-                   ", Accuracy: " + accuracy + ", Critical Chance: " + criticalChance +
-                   ", Increasing Stats: S - " + increasingStats.X +
-                   ", A - " + increasingStats.Y +
-                   ", I - " + increasingStats.Z;
+                   ", Accuracy: " + accuracy + ", Critical Chance: " + criticalChance;
         }
     }
 }

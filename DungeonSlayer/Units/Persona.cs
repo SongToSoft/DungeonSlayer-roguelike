@@ -96,7 +96,8 @@ namespace DungeonSlayer.Units
                                                   expectedExp + ", gold: " + expectedGold);
                                 if (this.name == "Diablo")
                                 {
-                                    StatusLine.AddLine(" YOU KILL DIABLO, AND NOW YOU END OF GAME");
+                                    Console.Clear();
+                                    Console.WriteLine(" YOU KILL DIABLO, YOU ARE THE BEST");
                                     Console.ReadKey();
                                     Game.EndGame(true);
                                 }
@@ -114,6 +115,10 @@ namespace DungeonSlayer.Units
                             else
                             {
                                 (this as Player).isDead = true;
+                                Console.Clear();
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine(" You are dead. Game Over.");
+                                Console.ReadKey();
                                 Game.EndGame();
                             }
                             if (this is Enemy)

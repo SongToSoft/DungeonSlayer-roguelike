@@ -4,3 +4,4 @@ C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\bin\Releas
 C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Release\DungeonSlayer.csproj.CoreCompileInputs.cache
 C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Release\DungeonSlayer.exe
 C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Release\DungeonSlayer.pdb
+C:\Users\Admin\Documents\GitHub\DungeonSlayer-roguelike\DungeonSlayer\obj\Release\DungeonSlayer.csprojAssemblyReference.cache

@@ -29,9 +29,9 @@ namespace DungeonSlayer.Units.Players.Inventory.Helmets
         public override string GetInfo()
         {
             return " Defense: " + blockingValue + ", Cost: " + cost +
-                   ", Increasing Stats: S - " + increasingStats.X +
-                   ", A - " + increasingStats.Y +
-                   ", I - " + increasingStats.Z;
+                   ", Increasing Helth - " + increasingStats.X +
+                   ", Increasing Evasion - " + increasingStats.Y +
+                   ", Increasing Spell Power - " + increasingStats.Z;
         }
     }
 }

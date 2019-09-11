@@ -56,45 +56,45 @@ namespace DungeonSlayer.Units.Players.Inventory
         static public Helmet diabloHelmet = new Helmet("Diablo Helmet", 17, new Vector3(2, 2, 2), 700, 25);
         static public Helmet godHelmet = new Helmet("God Helmet", 20, new Vector3(2, 2, 3), 700, 25);
 
-        static public Weapon workGloves = new Weapon("Work Gloves", 1, 95, 1, EWeaponType.HAND, new Vector3(0, 0, 0), 1, 0);
-        static public Weapon ironSword = new Weapon("Iron Sword", 4, 90, 5, EWeaponType.SWORD, new Vector3(0, 0, 0), 30, 2);
-        static public Weapon ironSpear = new Weapon("Iron Spear", 3, 70, 15, EWeaponType.SPEAR, new Vector3(0, 0, 0), 35, 2);
-        static public Weapon ironMace = new Weapon("Iron Mace", 4, 80, 9, EWeaponType.MACE, new Vector3(0, 0, 0), 40, 2);
-        static public Weapon ironDagger = new Weapon("Iron Dagger", 3, 92, 8, EWeaponType.DAGGER, new Vector3(0, 0, 0), 40, 3);
-        static public Weapon ironAxe = new Weapon("Iron Axe", 5, 85, 4, EWeaponType.AXE, new Vector3(0, 0, 0), 55, 4);
-        static public Weapon woodStaff = new Weapon("Wood Staff", 2, 90, 2, EWeaponType.STAFF, new Vector3(0, 0, 1), 45, 4);
+        static public Weapon workGloves = new Weapon("Work Gloves", 1, 95, 1, EWeaponType.HAND, 1, 0);
+        static public Weapon ironSword = new Weapon("Iron Sword", 4, 90, 5, EWeaponType.SWORD, 30, 2);
+        static public Weapon ironSpear = new Weapon("Iron Spear", 3, 70, 15, EWeaponType.SPEAR, 35, 2);
+        static public Weapon ironMace = new Weapon("Iron Mace", 4, 80, 9, EWeaponType.MACE, 40, 2);
+        static public Weapon ironDagger = new Weapon("Iron Dagger", 3, 92, 8, EWeaponType.DAGGER, 40, 3);
+        static public Weapon ironAxe = new Weapon("Iron Axe", 5, 85, 4, EWeaponType.AXE, 55, 4);
+        static public Weapon woodStaff = new Weapon("Wood Staff", 2, 90, 2, EWeaponType.STAFF, 45, 4);
 
-        static public Weapon stealSword = new Weapon("Steal Sword", 5, 90, 5, EWeaponType.SWORD, new Vector3(0, 0, 0), 80, 4);
-        static public Weapon stealSpear = new Weapon("Steal Spear", 4, 70, 15, EWeaponType.SPEAR, new Vector3(0, 0, 0), 75, 5);
-        static public Weapon stealMace = new Weapon("Steal Mace", 5, 80, 9, EWeaponType.MACE, new Vector3(0, 0, 0), 80, 4);
-        static public Weapon stealDagger = new Weapon("Steal Dagger", 4, 92, 8, EWeaponType.DAGGER, new Vector3(0, 0, 0), 75, 5);
-        static public Weapon stealAxe = new Weapon("Steal Axe", 6, 85, 4, EWeaponType.AXE, new Vector3(0, 0, 0), 80, 6);
-        static public Weapon oakStaff = new Weapon("Oak Staff", 3, 90, 2, EWeaponType.STAFF, new Vector3(0, 0, 1), 75, 6);
+        static public Weapon stealSword = new Weapon("Steal Sword", 5, 90, 5, EWeaponType.SWORD, 80, 4);
+        static public Weapon stealSpear = new Weapon("Steal Spear", 4, 70, 15, EWeaponType.SPEAR, 75, 5);
+        static public Weapon stealMace = new Weapon("Steal Mace", 5, 80, 9, EWeaponType.MACE, 80, 4);
+        static public Weapon stealDagger = new Weapon("Steal Dagger", 4, 92, 8, EWeaponType.DAGGER, 75, 5);
+        static public Weapon stealAxe = new Weapon("Steal Axe", 6, 85, 4, EWeaponType.AXE, 80, 6);
+        static public Weapon oakStaff = new Weapon("Oak Staff", 3, 90, 2, EWeaponType.STAFF, 75, 6);
 
-        static public Weapon elvenSword = new Weapon("Elven Sword", 6, 90, 5, EWeaponType.SWORD, new Vector3(0, 1, 0), 80, 7);
-        static public Weapon elvenSpear = new Weapon("Elven Spear", 5, 70, 15, EWeaponType.SPEAR, new Vector3(0, 1, 0), 90, 8);
-        static public Weapon elvenMace = new Weapon("Elven Mace", 6, 80, 9, EWeaponType.MACE, new Vector3(0, 1, 0), 110, 7);
-        static public Weapon elvenDagger = new Weapon("Elven Dagger", 5, 92, 8, EWeaponType.DAGGER, new Vector3(0, 1, 0), 100, 8);
-        static public Weapon elvenAxe = new Weapon("Elven Axe", 7, 85, 4, EWeaponType.AXE, new Vector3(0, 1, 0), 100, 9);
-        static public Weapon magicStaff = new Weapon("Magic Staff", 4, 90, 2, EWeaponType.STAFF, new Vector3(0, 1, 2), 120, 9);
+        static public Weapon elvenSword = new Weapon("Elven Sword", 6, 90, 5, EWeaponType.SWORD, 80, 7);
+        static public Weapon elvenSpear = new Weapon("Elven Spear", 5, 70, 15, EWeaponType.SPEAR, 90, 8);
+        static public Weapon elvenMace = new Weapon("Elven Mace", 6, 80, 9, EWeaponType.MACE, 110, 7);
+        static public Weapon elvenDagger = new Weapon("Elven Dagger", 5, 92, 8, EWeaponType.DAGGER, 100, 8);
+        static public Weapon elvenAxe = new Weapon("Elven Axe", 7, 85, 4, EWeaponType.AXE, 100, 9);
+        static public Weapon magicStaff = new Weapon("Magic Staff", 4, 90, 2, EWeaponType.STAFF, 120, 9);
 
-        static public Weapon dwarfsSword = new Weapon("Dwarfs Sword", 7, 90, 5, EWeaponType.SWORD, new Vector3(1, 0, 0), 120, 7);
-        static public Weapon dwarfsSpear = new Weapon("Dwarfs Spear", 6, 70, 15, EWeaponType.SPEAR, new Vector3(1, 0, 0), 130, 8);
-        static public Weapon dwarfsMace = new Weapon("Dwarfs Mace", 7, 80, 9, EWeaponType.MACE, new Vector3(1, 0, 0), 140, 7);
-        static public Weapon dwarfsDagger = new Weapon("Dwarfs Dagger", 6, 92, 8, EWeaponType.DAGGER, new Vector3(1, 0, 0), 140, 8);
-        static public Weapon dwarfsAxe = new Weapon("Dwarfs Axe", 9, 85, 4, EWeaponType.AXE, new Vector3(1, 0, 0), 120, 9);
+        static public Weapon dwarfsSword = new Weapon("Dwarfs Sword", 7, 90, 5, EWeaponType.SWORD, 120, 7);
+        static public Weapon dwarfsSpear = new Weapon("Dwarfs Spear", 6, 70, 15, EWeaponType.SPEAR, 130, 8);
+        static public Weapon dwarfsMace = new Weapon("Dwarfs Mace", 7, 80, 9, EWeaponType.MACE, 140, 7);
+        static public Weapon dwarfsDagger = new Weapon("Dwarfs Dagger", 6, 92, 8, EWeaponType.DAGGER, 140, 8);
+        static public Weapon dwarfsAxe = new Weapon("Dwarfs Axe", 9, 85, 4, EWeaponType.AXE, 120, 9);
 
-        static public Weapon orkMace = new Weapon("Ork Mace", 8, 80, 11, EWeaponType.MACE, new Vector3(1, 0, 0), 190, 9);
-        static public Weapon orkAxe = new Weapon("Ork Axe", 10, 85, 7, EWeaponType.AXE, new Vector3(1, 0, 0), 180, 10);
-        static public Weapon trollSpear = new Weapon("Troll Spear", 7, 70, 18, EWeaponType.SPEAR, new Vector3(0, 1, 0), 230, 11);
-        static public Weapon archmagicStaff = new Weapon("Archmagic Staff", 5, 90, 2, EWeaponType.STAFF, new Vector3(0, 1, 3), 250, 13);
-        static public Weapon elemetsDagger = new Weapon("Elemets Dagger", 6, 92, 8, EWeaponType.DAGGER, new Vector3(1, 1, 1), 270, 15);
-        static public Weapon dvemerMace = new Weapon("Dvemer Mace", 9, 80, 9, EWeaponType.MACE, new Vector3(0, 0, 0), 300, 16);
-        static public Weapon demonSword = new Weapon("Demon Sword", 9, 90, 5, EWeaponType.SWORD, new Vector3(1, 1, 1), 350, 17);
-        static public Weapon angelSword = new Weapon("Angel Sword", 9, 90, 5, EWeaponType.SWORD, new Vector3(2, 2, 0), 350, 17);
-        static public Weapon diabloSword = new Weapon("Dablo Sword", 15, 90, 5, EWeaponType.SWORD, new Vector3(2, 2, 2), 450, 20);
-        static public Weapon godSword = new Weapon("God Sword", 14, 90, 5, EWeaponType.SWORD, new Vector3(2, 3, 2), 450, 20);
-        static public Weapon namelessStaff = new Weapon("Nameless Staff", 7, 90, 2, EWeaponType.STAFF, new Vector3(1, 1, 5), 700, 22);
+        static public Weapon orkMace = new Weapon("Ork Mace", 8, 80, 11, EWeaponType.MACE, 190, 9);
+        static public Weapon orkAxe = new Weapon("Ork Axe", 10, 85, 7, EWeaponType.AXE, 180, 10);
+        static public Weapon trollSpear = new Weapon("Troll Spear", 7, 70, 18, EWeaponType.SPEAR, 230, 11);
+        static public Weapon archmagicStaff = new Weapon("Archmagic Staff", 5, 90, 2, EWeaponType.STAFF, 250, 13);
+        static public Weapon elemetsDagger = new Weapon("Elemets Dagger", 6, 92, 8, EWeaponType.DAGGER, 270, 15);
+        static public Weapon dvemerMace = new Weapon("Dvemer Mace", 9, 80, 9, EWeaponType.MACE, 300, 16);
+        static public Weapon demonSword = new Weapon("Demon Sword", 9, 90, 5, EWeaponType.SWORD, 350, 17);
+        static public Weapon angelSword = new Weapon("Angel Sword", 9, 90, 5, EWeaponType.SWORD, 350, 17);
+        static public Weapon diabloSword = new Weapon("Dablo Sword", 15, 90, 5, EWeaponType.SWORD, 450, 20);
+        static public Weapon godSword = new Weapon("God Sword", 14, 90, 5, EWeaponType.SWORD, 450, 20);
+        static public Weapon namelessStaff = new Weapon("Nameless Staff", 7, 90, 2, EWeaponType.STAFF, 700, 22);
 
         static public List<Item> items = new List<Item>
         {

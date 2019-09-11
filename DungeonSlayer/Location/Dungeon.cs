@@ -115,15 +115,18 @@ namespace DungeonSlayer.Location
             Load();
             DungeonGenerator.AddRooms(ref rooms);
             Game.world.Draw();
-            AddPortal(rooms.Count - 1, EPortalStatus.HUB);
             DungeonGenerator.AddBridges(ref rooms, ref bridges);
             AddEnemyes();
-            if (Game.currentDungeonLevel >= 20)
+            if (Game.currentDungeonLevel >= 19)
             {
                 Enemy enemy = new Enemy(EnemyesList.diablo);
                 enemy.SetInRoom(Game.world.dungeon.rooms.Count - 1);
                 enemy.Draw();
                 enemyes.Add(enemy);
+            }
+            else
+            {
+                AddPortal(rooms.Count - 1, EPortalStatus.HUB);
             }
             int chestCount = DungeonGenerator.random.Next(3, 6) + (Game.player.perksSystem.CheckPerk(PerksList.givesMoreChestPerk) ? 2 : 0);
             for (int i = 0; i < chestCount; ++i)
