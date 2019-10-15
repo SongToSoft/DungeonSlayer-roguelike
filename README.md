@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/TakingAway/DungeonSlayer-roguelike.svg?branch=master)](https://travis-ci.org/TakingAway/DungeonSlayer-roguelike)
+
 # DungeonSlayer
 DungeonSlayer - console roguelike game with all the attributes of a classic RPG
 
