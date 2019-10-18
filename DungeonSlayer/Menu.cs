@@ -46,7 +46,7 @@ namespace DungeonSlayer
                 {
                     case 1:
                         choseMenuStart = false;
-                        PlayerGenerator.SetupSpecifications(ref Game.player);
+                        PlayerGenerator.SetupSpecifications(Game.player);
                         break;
                     case 2:
                         //TODO: Make load character

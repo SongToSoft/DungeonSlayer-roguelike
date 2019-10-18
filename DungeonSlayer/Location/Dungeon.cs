@@ -113,9 +113,9 @@ namespace DungeonSlayer.Location
         public void Generate()
         {
             Load();
-            DungeonGenerator.AddRooms(ref rooms);
+            DungeonGenerator.AddRooms(rooms);
             Game.world.Draw();
-            DungeonGenerator.AddBridges(ref rooms, ref bridges);
+            DungeonGenerator.AddBridges(rooms, bridges);
             AddEnemyes();
             if (Game.currentDungeonLevel >= 19)
             {
@@ -159,14 +159,14 @@ namespace DungeonSlayer.Location
             Load();
             if (hub_rooms.Count == 0)
             {
-                DungeonGenerator.MakeHub(ref rooms);
+                DungeonGenerator.MakeHub(rooms);
                 Game.world.Draw();
                 //AddPortal(rooms.Count - 1, EPortalStatus.NEXT_DUNGEON);
                 Portal portal = new Portal(EPortalStatus.NEXT_DUNGEON);
                 portal.SetPosition(12, 45);
                 units.Add(portal);
                 Game.world.Draw();
-                DungeonGenerator.AddBridges(ref rooms, ref bridges, false);
+                DungeonGenerator.AddBridges(rooms, bridges, false);
                 for (int i = 0; i < 5; ++i)
                 {
                     Human human = new Human();

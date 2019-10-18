@@ -50,8 +50,8 @@ namespace DungeonSlayer.Architecture
                     }
                 }
             }
-            DungeonGenerator.AddPillars(ref objects, position, height, width);
-            DungeonGenerator.AddWalls(ref objects, position, height, width);
+            DungeonGenerator.AddPillars(objects, position, height, width);
+            DungeonGenerator.AddWalls(objects, position, height, width);
         }
 
         public bool Contain(Room room)

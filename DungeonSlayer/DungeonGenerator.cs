@@ -9,7 +9,7 @@ namespace DungeonSlayer
     {
         static public Random random = new Random();
         static public int roomCount = 4;
-        static public void AddRooms(ref List<Room> rooms)
+        static public void AddRooms(List<Room> rooms)
         {
             //int roomCount = random.Next(4, 5);
             ERoomLocation roomLocation;
@@ -51,7 +51,7 @@ namespace DungeonSlayer
             }
         }
 
-        static public void AddBridges(ref List<Room> rooms, ref List<Bridge> bridges, bool isDungeon = true)
+        static public void AddBridges(List<Room> rooms, List<Bridge> bridges, bool isDungeon = true)
         {
             for (int i = 0; i < rooms.Count; ++i)
             {
@@ -80,7 +80,7 @@ namespace DungeonSlayer
             }
         }
 
-        static public void AddPillars(ref List<ArchitectureObject> objects, Vector2 roomPosition, int roomHeight, int roomWidth)
+        static public void AddPillars(List<ArchitectureObject> objects, Vector2 roomPosition, int roomHeight, int roomWidth)
         {
             int pillarsCount = random.Next(2, 3);
             for (int i = 0; i < pillarsCount; ++i)
@@ -91,7 +91,7 @@ namespace DungeonSlayer
             }
         }
 
-        static public void AddWalls(ref List<ArchitectureObject> objects, Vector2 roomPosition, int roomHeight, int roomWidth)
+        static public void AddWalls(List<ArchitectureObject> objects, Vector2 roomPosition, int roomHeight, int roomWidth)
         {
             int wallsCount = random.Next(2, 3);
             for (int i = 0; i < wallsCount; ++i)
@@ -105,7 +105,7 @@ namespace DungeonSlayer
             }
         }
 
-        static public bool CheckRoom(ref List<Room> rooms, ref Room room)
+        static public bool CheckRoom(List<Room> rooms, Room room)
         {
             for (int i = 0; i < rooms.Count; ++i)
             {
@@ -117,7 +117,7 @@ namespace DungeonSlayer
             return false;
         }
 
-        static public void MakeHub(ref List<Room> rooms)
+        static public void MakeHub(List<Room> rooms)
         {
             for (int i = 0; i < 2; ++i)
             {

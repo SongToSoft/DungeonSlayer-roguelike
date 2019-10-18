@@ -5,13 +5,13 @@ namespace DungeonSlayer.Units.Players
 {
     static class PlayerGenerator
     {
-        static public void SetupSpecifications(ref Player player)
+        static public void SetupSpecifications(Player player)
         {
             Console.Clear();
-            while (!SetName(ref player)) {}
-            SetGender(ref player);
-            SetRace(ref player);
-            SetClass(ref player);
+            while (!SetName(player)) {}
+            SetGender(player);
+            SetRace(player);
+            SetClass(player);
             Console.WriteLine(" Enter any key");
             char command = Console.ReadKey(true).KeyChar;
             Console.Clear();
@@ -19,7 +19,7 @@ namespace DungeonSlayer.Units.Players
             Game.player.mana = Game.player.maxMana;
         }
 
-        static public bool SetName(ref Player player)
+        static public bool SetName(Player player)
         {
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(" Enter hero name");
@@ -47,7 +47,7 @@ namespace DungeonSlayer.Units.Players
             }
         }
 
-        static private void SetGender(ref Player player)
+        static private void SetGender(Player player)
         {
             bool isSet = true;
             Console.ForegroundColor = ConsoleColor.White;
@@ -83,7 +83,7 @@ namespace DungeonSlayer.Units.Players
             }
         }
 
-        static private void SetClass(ref Player player)
+        static private void SetClass(Player player)
         {
             bool isSet = true;
             Console.ForegroundColor = ConsoleColor.White;
@@ -153,7 +153,7 @@ namespace DungeonSlayer.Units.Players
             }
         }
 
-        static private void SetRace(ref Player player)
+        static private void SetRace(Player player)
         {
             bool isSet = true;
             Console.ForegroundColor = ConsoleColor.White;

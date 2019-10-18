@@ -4,6 +4,7 @@ using DungeonSlayer.Units.Players.Inventory;
 using DungeonSlayer.Units.Players.Magics;
 using DungeonSlayer.Units.Players.Perks;
 using System;
+using System.Numerics;
 
 namespace DungeonSlayer.Units.Players
 {
@@ -116,41 +117,25 @@ namespace DungeonSlayer.Units.Players
                     case 'w':
                     case 'W':
                         isMove = true;
-                        CheckChest((int)position.X - 1, (int)position.Y);
-                        CheckTrader((int)position.X - 1, (int)position.Y);
-                        CheckInformant((int)position.X - 1, (int)position.Y);
-                        CheckPortal((int)position.X - 1, (int)position.Y);
-                        CheckAtack((int)position.X - 1, (int)position.Y);
+                        AllChecks((int)position.X - 1, (int)position.Y);
                         MoveUp();
                         break;
                     case 'd':
                     case 'D':
                         isMove = true;
-                        CheckChest((int)position.X, (int)position.Y + 1);
-                        CheckTrader((int)position.X, (int)position.Y + 1);
-                        CheckInformant((int)position.X, (int)position.Y + 1);
-                        CheckPortal((int)position.X, (int)position.Y + 1);
-                        CheckAtack((int)position.X, (int)position.Y + 1);
+                        AllChecks((int)position.X, (int)position.Y + 1);
                         MoveRight();
                         break;
                     case 's':
                     case 'S':
                         isMove = true;
-                        CheckChest((int)position.X + 1, (int)position.Y);
-                        CheckTrader((int)position.X + 1, (int)position.Y);
-                        CheckInformant((int)position.X + 1, (int)position.Y);
-                        CheckPortal((int)position.X + 1, (int)position.Y);
-                        CheckAtack((int)position.X + 1, (int)position.Y);
+                        AllChecks((int)position.X + 1, (int)position.Y);
                         MoveDown();
                         break;
                     case 'a':
                     case 'A':
                         isMove = true;
-                        CheckChest((int)position.X, (int)position.Y - 1);
-                        CheckTrader((int)position.X, (int)position.Y - 1);
-                        CheckInformant((int)position.X, (int)position.Y - 1);
-                        CheckPortal((int)position.X, (int)position.Y - 1);
-                        CheckAtack((int)position.X, (int)position.Y - 1);
+                        AllChecks((int)position.X, (int)position.Y - 1);
                         MoveLeft();
                         break;
                     case 'i':
@@ -181,6 +166,15 @@ namespace DungeonSlayer.Units.Players
             Console.SetCursorPosition(1, 1);
             Console.Write(" ");
             Draw();
+        }
+
+        public void AllChecks(int i, int j)
+        {
+            CheckChest(i, j);
+            CheckTrader(i, j);
+            CheckInformant(i, j);
+            CheckPortal(i, j);
+            CheckAtack(i, j);
         }
 
         public void CheckAtack(int i, int j)
@@ -286,6 +280,11 @@ namespace DungeonSlayer.Units.Players
                     }
                 }
             }
+        }
+
+        public new void SetInRoom(int roomId)
+        {
+            position = new Vector2((int)Game.world.dungeon.rooms[roomId].GetPosition().X + 2, (int)Game.world.dungeon.rooms[roomId].GetPosition().Y + 2);
         }
     }
 }

@@ -24,6 +24,7 @@ namespace DungeonSlayer.Units
             position.X = x;
             position.Y = y;
         }
+    
         public void SetInRoom(int roomId)
         {
             bool checkPosition;
